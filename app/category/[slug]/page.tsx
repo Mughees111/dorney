@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { fetchProducts, fetchCategories } from "@/lib/api";
 import {
   getCategoryBySlug,
   getProductsByCategory,
@@ -12,36 +13,41 @@ import type { Metadata } from "next";
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
+  const apiCategories = await fetchCategories();
+  if (apiCategories?.length) {
+    return apiCategories.map((c) => ({ slug: c.slug }));
+  }
   const { categories } = await import("@/lib/data");
   return categories.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const apiCategories = await fetchCategories();
+  const apiCategory = apiCategories?.find((c) => c.slug === slug);
+  const mockCategory = getCategoryBySlug(slug);
+  const category = apiCategory || mockCategory;
   if (!category) return { title: "Category Not Found" };
 
-  const imageUrl = getAbsoluteUrl(category.image);
+  const imageUrl = getAbsoluteUrl(
+    (category as { image?: string; imageUrl?: string }).image ||
+      (category as { imageUrl?: string }).imageUrl ||
+      ""
+  );
 
   return {
-    title: category.metaTitle,
-    description: category.metaDescription,
-    keywords: category.keywords,
+    title: (category as { metaTitle?: string }).metaTitle || category.name,
+    description: (category as { metaDescription?: string }).metaDescription || "",
+    keywords: (category as { keywords?: string[] }).keywords,
     alternates: {
-      canonical: getAbsoluteUrl(`/category/${category.slug}`),
+      canonical: getAbsoluteUrl(`/category/${slug}`),
     },
     openGraph: {
-      title: category.metaTitle,
-      description: category.metaDescription,
-      url: getAbsoluteUrl(`/category/${category.slug}`),
-      images: [{ url: imageUrl, alt: category.name }],
+      title: (category as { metaTitle?: string }).metaTitle || category.name,
+      description: (category as { metaDescription?: string }).metaDescription || "",
+      url: getAbsoluteUrl(`/category/${slug}`),
+      images: imageUrl ? [{ url: imageUrl, alt: category.name }] : [],
       type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: category.metaTitle,
-      description: category.metaDescription,
-      images: [imageUrl],
     },
     robots: { index: true, follow: true },
   };
@@ -49,10 +55,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const [apiProducts, apiCategories] = await Promise.all([
+    fetchProducts(),
+    fetchCategories(),
+  ]);
+
+  const apiCategory = apiCategories?.find((c) => c.slug === slug);
+  const mockCategory = getCategoryBySlug(slug);
+  const category = apiCategory || mockCategory;
   if (!category) notFound();
 
-  const categoryProducts = getProductsByCategory(slug);
+  const categoryProducts = apiProducts?.length
+    ? apiProducts.filter((p) => {
+        const catSlug = (p.category as { slug?: string })?.slug;
+        return catSlug === slug || p.categoryId === (apiCategory?.id ?? "");
+      })
+    : getProductsByCategory(slug);
+
+  const products = (categoryProducts ?? []).map((p) =>
+    "category" in p && typeof (p as { category: unknown }).category === "object"
+      ? { ...p, category: (p as { category: { slug?: string } }).category?.slug ?? slug }
+      : p
+  );
+
+  const catName = (category as { name: string }).name;
 
   return (
     <section className="py-12 md:py-20 bg-bgLight min-h-screen">
@@ -62,22 +88,32 @@ export default async function CategoryPage({ params }: Props) {
             Products
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-dark font-medium">{category.name}</span>
+          <span className="text-dark font-medium">{catName}</span>
         </nav>
 
         <div className="mb-12 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-cookie text-primary mb-4">
-            {category.name}
+            {catName}
           </h1>
           <p className="text-lg md:text-xl text-neutral max-w-3xl mx-auto">
-            {category.description}
+            {(category as { description?: string }).description}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {categoryProducts.length > 0 ? (
-            categoryProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={{
+                  ...product,
+                  shortDescription: product.shortDescription ?? undefined,
+                  category:
+                    typeof product.category === "object" && product.category
+                      ? (product.category as { slug?: string }).slug ?? slug
+                      : (product.category as string) ?? slug,
+                }}
+              />
             ))
           ) : (
             <p className="col-span-full text-center text-neutral py-12">

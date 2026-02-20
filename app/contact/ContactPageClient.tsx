@@ -180,7 +180,7 @@ export function ContactPageClient() {
             </form>
           </div>
           <div className="lg:col-span-2 space-y-8">
-            <div className="bg-gradient-primary text-white p-8 rounded-2xl shadow-lg">
+            <div className="bg-gradient-primary text-white p-8 rounded-2xl shadow-lg  ">
               <h3 className="text-2xl font-bold mb-6">Main Office</h3>
               <div className="space-y-4">
                 <p className="flex items-start gap-3">

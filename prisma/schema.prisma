@@ -1,0 +1,112 @@
+// Dorney FMCG Bakery - MySQL Schema
+// Run: npx prisma db push (or migrate) after setting DATABASE_URL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id              String    @id @default(cuid())
+  name            String
+  slug            String    @unique
+  description     String?
+  imageUrl        String?   @map("image_url")
+  imageAlt        String?   @map("image_alt")
+  metaTitle       String?   @map("meta_title")
+  metaDescription String?   @map("meta_description")
+  keywords        Json?     // JSON array of keywords
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  products        Product[]
+}
+
+model Product {
+  id              String         @id @default(cuid())
+  name            String
+  slug            String         @unique
+  categoryId      String         @map("category_id")
+  shortDescription String?       @map("short_description")
+  description     String?
+  price           Decimal        @db.Decimal(10, 2)
+  featured        Boolean        @default(false)
+  imageAlt        String?        @map("image_alt")
+  metaTitle       String?        @map("meta_title")
+  metaDescription String?        @map("meta_description")
+  keywords        Json?          // JSON array
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+  category        Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  productImages   ProductImage[]
+  orderItems      OrderItem[]
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String  @map("product_id")
+  imageUrl  String  @map("image_url")
+  imageAlt  String? @map("image_alt")
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_images")
+}
+
+model HeroSlide {
+  id           String   @id @default(cuid())
+  title        String
+  subtitle     String?
+  description  String?
+  imageUrl     String?  @map("image_url")
+  imageAlt     String?  @map("image_alt")
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("hero_slides")
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique @map("order_number")
+  customerName    String      @map("customer_name")
+  customerEmail   String?     @map("customer_email")
+  customerPhone   String      @map("customer_phone")
+  customerAddress String?     @map("customer_address")
+  totalAmount     Decimal     @map("total_amount") @db.Decimal(10, 2)
+  orderStatus     String      @default("pending") @map("order_status") // pending, confirmed, shipped, delivered, cancelled
+  paymentStatus   String      @default("pending") @map("payment_status") // pending, paid, refunded
+  notes           String?
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String  @map("order_id")
+  productId   String? @map("product_id")
+  productName String  @map("product_name")
+  quantity    Int
+  price       Decimal @db.Decimal(10, 2)
+  total       Decimal @db.Decimal(10, 2)
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@map("order_items")
+}
+
+model Admin {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      String    @default("admin")
+  isActive  Boolean   @default(true) @map("is_active")
+  lastLogin DateTime? @map("last_login")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+}

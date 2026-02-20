@@ -8,34 +8,53 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { getWhatsAppUrl } from "@/lib/helpers";
 
-const slides = [
+interface HeroSlide {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  description?: string | null;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
+  displayOrder: number;
+}
+
+const defaultSlides: HeroSlide[] = [
   {
-    image: "/images/products/featuredProduct1.png",
-    alt: "Assorted premium cakes and cupcakes",
+    id: "1",
     title: "Baked to Perfection",
     subtitle: "Premium Cream Cakes & Cupcakes for Retailers",
+    imageUrl: "/images/products/featuredProduct1.png",
+    imageAlt: "Assorted premium cakes and cupcakes",
+    displayOrder: 0,
   },
   {
-    image: "/images/products/featuredProduct6.png",
-    alt: "Freshly baked biscuits and cookies assortment",
+    id: "2",
     title: "Crunchy Delights",
     subtitle: "High-Quality Biscuits – Nationwide Supply",
+    imageUrl: "/images/products/featuredProduct6.png",
+    imageAlt: "Freshly baked biscuits and cookies assortment",
+    displayOrder: 1,
   },
   {
-    image: "/images/products/featured7.png",
-    alt: "Colorful sweet cakes display",
+    id: "3",
     title: "Sweet Moments",
     subtitle: "Custom & Ready-to-Sell Cakes for Every Occasion",
+    imageUrl: "/images/products/featured7.png",
+    imageAlt: "Colorful sweet cakes display",
+    displayOrder: 2,
   },
   {
-    image: "/images/products/featured8.png",
-    alt: "Elegant creamy layered cakes",
+    id: "4",
     title: "Creamy Perfection",
     subtitle: "Partner with Pakistan's Trusted FMCG Bakery",
+    imageUrl: "/images/products/featured8.png",
+    imageAlt: "Elegant creamy layered cakes",
+    displayOrder: 3,
   },
 ];
 
 export function HeroSection() {
+  const [slides, setSlides] = useState<HeroSlide[]>(defaultSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
   const whatsappUrl = getWhatsAppUrl(
     undefined,
@@ -43,11 +62,27 @@ export function HeroSection() {
   );
 
   useEffect(() => {
+    fetch("/api/hero-slides")
+      .then((res) => res.ok ? res.json() : null)
+      .then((data: HeroSlide[] | null) => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          const sorted = [...data].sort((a, b) => a.displayOrder - b.displayOrder);
+          setSlides(sorted);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
+
+  const slide = slides[currentSlide];
+  const imageSrc = slide?.imageUrl || "/images/products/featuredProduct1.png";
+  const imageAlt = slide?.imageAlt || "Dorney bakery products";
 
   return (
     <section className="relative min-h-screen flex items-center bg-bgLight overflow-hidden">
@@ -67,11 +102,11 @@ export function HeroSection() {
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-cookie text-primary leading-tight">
-              {slides[currentSlide].title}
+              {slide?.title ?? defaultSlides[0].title}
             </h1>
 
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-semibold text-dark">
-              {slides[currentSlide].subtitle}
+              {slide?.subtitle ?? defaultSlides[0].subtitle}
             </h2>
 
             <p className="text-lg text-neutral max-w-xl mx-auto lg:mx-0 leading-relaxed">
@@ -99,11 +134,11 @@ export function HeroSection() {
 
           <div className="relative">
             <div className="overflow-hidden rounded-3xl aspect-[4/3] lg:aspect-square relative">
-              {slides.map((slide, index) => (
+              {slides.map((s, index) => (
                 <Image
-                  key={index}
-                  src={slide.image}
-                  alt={slide.alt}
+                  key={s.id}
+                  src={s.imageUrl || "/images/products/featuredProduct1.png"}
+                  alt={s.imageAlt || s.title}
                   fill
                   className={`object-contain transition-opacity duration-1000 ease-in-out ${
                     index === currentSlide ? "opacity-100" : "opacity-0"

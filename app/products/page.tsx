@@ -3,11 +3,8 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { ProductCard } from "@/components/ui/ProductCard";
-import {
-  categories,
-  products,
-  getCategoryBySlug,
-} from "@/lib/data";
+import { fetchProducts, fetchCategories } from "@/lib/api";
+import { categories as mockCategories, products as mockProducts } from "@/lib/data";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -27,11 +24,45 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProductsPage() {
-  const productsByCategory = categories.map((cat) => ({
-    ...cat,
-    products: products.filter((p) => p.category === cat.slug),
-  })).filter((cat) => cat.products.length > 0);
+export default async function ProductsPage() {
+  const [apiProducts, apiCategories] = await Promise.all([
+    fetchProducts(),
+    fetchCategories(),
+  ]);
+
+  const categories = apiCategories?.length
+    ? apiCategories.map((c) => ({
+        id: c.id,
+        name: c.name,
+        slug: c.slug,
+        description: c.description ?? "",
+        image: c.image || c.imageUrl || "",
+      }))
+    : mockCategories;
+
+  const products = apiProducts?.length
+    ? apiProducts.map((p) => ({
+        id: p.id,
+        name: p.name,
+        slug: p.slug,
+        category: p.category?.slug ?? p.categoryId,
+        shortDescription: p.shortDescription ?? "",
+        description: p.description ?? "",
+        price: p.price,
+        images: p.images,
+        metaTitle: p.metaTitle,
+        metaDescription: p.metaDescription,
+        keywords: p.keywords,
+        featured: p.featured,
+      }))
+    : mockProducts;
+
+  const productsByCategory = categories
+    .map((cat) => ({
+      ...cat,
+      products: products.filter((p) => p.category === cat.slug),
+    }))
+    .filter((cat) => cat.products.length > 0);
 
   return (
     <section className="py-12 md:py-20 bg-bgLight min-h-screen">
@@ -57,7 +88,7 @@ export default function ProductsPage() {
               >
                 <div className="relative h-64 overflow-hidden">
                   <Image
-                    src={category.image}
+                    src={category.image || "/images/categories/cakes.webp"}
                     alt={category.name}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700"

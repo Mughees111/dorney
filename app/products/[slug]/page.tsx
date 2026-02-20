@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { fetchProductBySlug, fetchProducts } from "@/lib/api";
 import {
   getProductBySlug,
   getProductsByCategory,
@@ -11,53 +12,72 @@ import {
   getAbsoluteUrl,
 } from "@/lib/data";
 import { getWhatsAppUrl } from "@/lib/helpers";
+import { ProductDetailClient } from "./ProductDetailClient";
 import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
+  const apiProducts = await fetchProducts();
+  if (apiProducts?.length) {
+    return apiProducts.map((p) => ({ slug: p.slug }));
+  }
   const { products } = await import("@/lib/data");
   return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const apiProduct = await fetchProductBySlug(slug);
+  const mockProduct = getProductBySlug(slug);
+  const product = apiProduct || mockProduct;
   if (!product) return { title: "Product Not Found" };
 
-  const category = getCategoryBySlug(product.category);
-  const categoryName = category?.name ?? product.category;
-
-  const imageUrl = product.images[0]
+  const category =
+    typeof product.category === "object" && product.category
+      ? (product.category as { name?: string }).name
+      : getCategoryBySlug(product.category as string)?.name;
+  const imageUrl = product.images?.[0]
     ? getAbsoluteUrl(product.images[0].url)
     : undefined;
 
   return {
-    title: product.metaTitle,
-    description: product.metaDescription,
-    keywords: product.keywords,
+    title: (product as { metaTitle?: string }).metaTitle || product.name,
+    description: (product as { metaDescription?: string }).metaDescription || product.description || "",
+    keywords: (product as { keywords?: string[] }).keywords,
     alternates: {
       canonical: getAbsoluteUrl(`/products/${product.slug}`),
     },
     openGraph: {
-      title: product.metaTitle,
-      description: product.metaDescription,
+      title: (product as { metaTitle?: string }).metaTitle || product.name,
+      description: (product as { metaDescription?: string }).metaDescription || "",
       url: getAbsoluteUrl(`/products/${product.slug}`),
-      images: imageUrl ? [{ url: imageUrl, alt: product.images[0].alt }] : [],
+      images: imageUrl ? [{ url: imageUrl, alt: product.images[0]?.alt || product.name }] : [],
       type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: product.metaTitle,
-      description: product.metaDescription,
-      images: imageUrl ? [imageUrl] : [],
     },
     robots: { index: true, follow: true },
   };
 }
 
-function ProductJsonLd({ product }: { product: NonNullable<ReturnType<typeof getProductBySlug>> }) {
-  const category = getCategoryBySlug(product.category);
+function ProductJsonLd({
+  product,
+}: {
+  product: {
+    name: string;
+    description?: string | null;
+    images: { url: string }[];
+    price: number;
+    slug: string;
+    category?: string | { slug?: string; name?: string } | null;
+  };
+}) {
+  const catObj = (product as { category?: string | { slug?: string; name?: string } | null }).category;
+  const categoryName =
+    typeof catObj === "object" && catObj
+      ? catObj.name
+      : typeof catObj === "string"
+        ? getCategoryBySlug(catObj)?.name
+        : null;
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -65,7 +85,7 @@ function ProductJsonLd({ product }: { product: NonNullable<ReturnType<typeof get
     description: product.description,
     image: product.images.map((i) => getAbsoluteUrl(i.url)),
     brand: { "@type": "Brand", name: "Dorney" },
-    category: category?.name,
+    category: categoryName ?? undefined,
     offers: {
       "@type": "Offer",
       price: product.price,
@@ -83,18 +103,42 @@ function ProductJsonLd({ product }: { product: NonNullable<ReturnType<typeof get
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const apiProduct = await fetchProductBySlug(slug);
+  const mockProduct = getProductBySlug(slug);
+  const product = apiProduct || mockProduct;
   if (!product) notFound();
 
-  const category = getCategoryBySlug(product.category);
-  const relatedProducts = getProductsByCategory(product.category).filter(
-    (p) => p.id !== product.id
-  );
-  const categoryDisplay = category?.name ?? product.category.replace(/-/g, " ");
-  const whatsappUrl = getWhatsAppUrl(
-    undefined,
-    `Hi, I'm interested in ordering ${product.name}`
-  );
+  const categorySlug =
+    (typeof product.category === "object" && product.category
+      ? (product.category as { slug?: string }).slug
+      : (product.category as string)) ?? "";
+  const category =
+    typeof product.category === "object" && product.category
+      ? product.category
+      : categorySlug
+        ? getCategoryBySlug(categorySlug)
+        : null;
+  const categoryDisplay =
+    typeof category === "object" && category && "name" in category
+      ? (category as { name?: string }).name ?? ""
+      : "";
+  const capitalizedCategory =
+    categoryDisplay && categoryDisplay.charAt(0).toUpperCase() + categoryDisplay.slice(1);
+
+  const relatedProducts = await (async () => {
+    const allProducts = await fetchProducts();
+    if (allProducts?.length) {
+      return allProducts.filter(
+        (p) =>
+          ((p.category as { slug?: string })?.slug === categorySlug ||
+            p.categoryId === (product as { categoryId?: string }).categoryId) &&
+          p.id !== product.id
+      );
+    }
+    return getProductsByCategory(categorySlug).filter((p) => p.id !== product.id);
+  })();
+
+  const mainImage = product.images?.[0];
 
   return (
     <>
@@ -106,8 +150,8 @@ export default async function ProductPage({ params }: Props) {
               Products
             </Link>
             <span className="mx-2">/</span>
-            <Link href={`/category/${product.category}`} className="hover:text-primary">
-              {categoryDisplay}
+            <Link href={`/category/${categorySlug}`} className="hover:text-primary">
+              {capitalizedCategory}
             </Link>
             <span className="mx-2">/</span>
             <span className="text-dark font-medium">{product.name}</span>
@@ -116,8 +160,8 @@ export default async function ProductPage({ params }: Props) {
           <article className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-xl">
               <Image
-                src={product.images[0].url}
-                alt={product.images[0].alt}
+                src={mainImage?.url || "/images/products/featuredProduct1.png"}
+                alt={mainImage?.alt || (product as { imageAlt?: string }).imageAlt || product.name}
                 fill
                 className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -130,17 +174,22 @@ export default async function ProductPage({ params }: Props) {
                 {product.name}
               </h1>
               <p className="text-lg text-secondary font-semibold mb-2 capitalize">
-                {categoryDisplay}
+                {capitalizedCategory}
               </p>
-              <p className="text-2xl font-bold text-dark mb-6">
-                Rs. {product.price}
-              </p>
+              <p className="text-2xl font-bold text-dark mb-6">Rs. {product.price}</p>
               <p className="text-lg text-neutral leading-relaxed mb-8">
                 {product.description}
               </p>
-              <Button href={whatsappUrl} variant="primary" size="lg" className="uppercase">
-                Order on WhatsApp
-              </Button>
+              <ProductDetailClient
+                product={{
+                  id: product.id,
+                  name: product.name,
+                  slug: product.slug,
+                  price: product.price,
+                  image: mainImage?.url,
+                  imageAlt: mainImage?.alt || product.name,
+                }}
+              />
             </div>
           </article>
 
@@ -151,7 +200,13 @@ export default async function ProductPage({ params }: Props) {
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedProducts.slice(0, 6).map((p) => (
-                  <ProductCard key={p.id} product={p} />
+                  <ProductCard
+                    key={p.id}
+                    product={{
+                      ...p,
+                      category: (p as { category?: { slug?: string } }).category?.slug ?? categorySlug,
+                    }}
+                  />
                 ))}
               </div>
             </div>

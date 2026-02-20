@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { categories } from "@/lib/data";
+import { categories as mockCategories } from "@/lib/data";
+import type { ApiCategory } from "@/lib/api";
 import { getWhatsAppUrl } from "@/lib/helpers";
+import { useCart } from "@/context/CartContext";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -17,11 +19,38 @@ const navLinks = [
   { name: "Contact", path: "/contact" },
 ];
 
+interface CategoryItem {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+}
+
 export function Header() {
   const pathname = usePathname();
+  const { totalItems } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [categories, setCategories] = useState<CategoryItem[]>(mockCategories);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: ApiCategory[] | null) => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setCategories(
+            data.map((c) => ({
+              id: c.id,
+              name: c.name,
+              slug: c.slug,
+              description: c.description ?? null,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const whatsappUrl = getWhatsAppUrl(
     undefined,
@@ -106,7 +135,19 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex items-center gap-4">
+            <Link
+              href="/cart"
+              className="relative p-2 text-dark hover:text-primary transition-colors"
+              aria-label={`Cart (${totalItems} items)`}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
+              )}
+            </Link>
             <Button href={whatsappUrl} variant="primary" size="sm" className="uppercase">
               Order Now
             </Button>
@@ -171,6 +212,10 @@ export function Header() {
                   )}
                 </div>
               ))}
+              <Link href="/cart" className="flex items-center justify-center gap-2 py-2 font-medium text-dark hover:text-primary">
+                <ShoppingCart className="w-5 h-5" />
+                Cart {totalItems > 0 && `(${totalItems})`}
+              </Link>
               <Button
                 href={whatsappUrl}
                 variant="primary"
