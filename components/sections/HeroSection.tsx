@@ -96,7 +96,7 @@ export function HeroSection() {
   const imageAlt = slide?.imageAlt || "Dorney bakery products";
 
   return (
-    <section className="relative min-h-screen flex  bg-bgLight overflow-hidden" style={{ backgroundColor: 'rgba(239, 233, 233, 0.9)9)' }} >
+    <section className="relative min-h-screen flex  bg-bgLight overflow-hidden"  >
 
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-20 left-10 w-80 h-80 bg-primary/30 rounded-full blur-3xl" />

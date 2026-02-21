@@ -101,3 +101,46 @@ export async function getProductBySlugFromDb(
     return null;
   }
 }
+
+export interface FlashDeal {
+  id: string;
+  name: string;
+  subtitle: string | null;
+  originalPrice: number;
+  salePrice: number;
+  discount: number;
+  emoji: string | null;
+  tag: string | null;
+  bgColor: string | null;
+  accentColor: string | null;
+  imageUrl: string | null;
+  isActive: boolean;
+  displayOrder: number;
+}
+
+export async function getFlashDealsFromDb(): Promise<FlashDeal[] | null> {
+  try {
+    const deals = await prisma.flashDeal.findMany({
+      where: { isActive: true },
+      orderBy: { displayOrder: "asc" },
+    });
+    return deals.map((d) => ({
+      id: d.id,
+      name: d.name,
+      subtitle: d.subtitle,
+      originalPrice: Number(d.originalPrice),
+      salePrice: Number(d.salePrice),
+      discount: d.discount,
+      emoji: d.emoji,
+      tag: d.tag,
+      bgColor: d.bgColor,
+      accentColor: d.accentColor,
+      imageUrl: d.imageUrl,
+      isActive: d.isActive,
+      displayOrder: d.displayOrder,
+    }));
+  } catch (e) {
+    console.error("[data-server] getFlashDealsFromDb error:", e);
+    return null;
+  }
+}

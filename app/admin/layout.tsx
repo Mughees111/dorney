@@ -98,6 +98,16 @@ export default function AdminLayout({
                   Hero Slides
                 </Link>
                 <Link
+                  href="/admin/flash-deals"
+                  className={`text-sm font-medium ${
+                    pathname?.startsWith("/admin/flash-deals")
+                      ? "text-primary"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  Flash Deals
+                </Link>
+                <Link
                   href="/admin/faqs"
                   className={`text-sm font-medium ${
                     pathname?.startsWith("/admin/faqs")

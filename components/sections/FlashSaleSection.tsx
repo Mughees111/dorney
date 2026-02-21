@@ -1,33 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Zap, Clock, ArrowRight, Tag, Flame } from "lucide-react";
+import { Zap, Tag, Flame, ShoppingCart, Check } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-
-// Countdown timer hook
-function useCountdown(targetHours = 8) {
-  const [time, setTime] = useState({ h: targetHours, m: 0, s: 0 });
-
-  useEffect(() => {
-    const end = Date.now() + targetHours * 60 * 60 * 1000;
-    const tick = setInterval(() => {
-      const diff = Math.max(0, end - Date.now());
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      setTime({ h, m, s });
-      if (diff === 0) clearInterval(tick);
-    }, 1000);
-    return () => clearInterval(tick);
-  }, []);
-
-  return time;
+import { useCart } from "@/context/CartContext";
+import { constants } from "@/src/configs/constants";
+interface FlashDeal {
+  id: string;
+  name: string;
+  subtitle: string | null;
+  originalPrice: number;
+  salePrice: number;
+  discount: number;
+  emoji: string | null;
+  tag: string | null;
+  bgColor: string | null;
+  accentColor: string | null;
+  imageUrl: string | null;
 }
 
-const deals = [
+const fallbackDeals: FlashDeal[] = [
   {
-    id: 1,
+    id: "fallback-1",
     name: "Cream Cupcakes",
     subtitle: "Vanilla & Chocolate Mix",
     originalPrice: 250,
@@ -37,9 +31,10 @@ const deals = [
     tag: "Best Seller",
     bgColor: "#FFF3E0",
     accentColor: "#FF6B00",
+    imageUrl: null,
   },
   {
-    id: 2,
+    id: "fallback-2",
     name: "Lollipop Bucket",
     subtitle: "Mixed Flavors — 50pcs",
     originalPrice: 500,
@@ -49,9 +44,10 @@ const deals = [
     tag: "Bulk Deal",
     bgColor: "#FCE4EC",
     accentColor: "#E91E63",
+    imageUrl: null,
   },
   {
-    id: 3,
+    id: "fallback-3",
     name: "Candy Mix Pack",
     subtitle: "Assorted Flavors — 100pcs",
     originalPrice: 400,
@@ -61,9 +57,10 @@ const deals = [
     tag: "Hot Deal",
     bgColor: "#E8F5E9",
     accentColor: "#2E7D32",
+    imageUrl: null,
   },
   {
-    id: 4,
+    id: "fallback-4",
     name: "Mini Donuts Box",
     subtitle: "Glazed & Sprinkled — 12pcs",
     originalPrice: 320,
@@ -73,19 +70,79 @@ const deals = [
     tag: "New Arrival",
     bgColor: "#EDE7F6",
     accentColor: "#6A1B9A",
+    imageUrl: null,
   },
 ];
 
 export function FlashSaleSection() {
-  const { h, m, s } = useCountdown(8);
-  const pad = (n: number) => String(n).padStart(2, "0");
+  const [deals, setDeals] = useState<FlashDeal[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
+  const { addItem } = useCart();
+
+  useEffect(() => {
+    fetch("/api/flash-deals", {
+      cache: "force-cache",
+      next: { revalidate: 3600 },
+    } as RequestInit)
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setDeals(data);
+        } else {
+          setDeals(fallbackDeals);
+        }
+      })
+      .catch(() => {
+        setDeals(fallbackDeals);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleAddToCart = (deal: FlashDeal) => {
+    addItem({
+      id: `deal-${deal.id}`,
+      productId: deal.id,
+      name: deal.name,
+      price: deal.salePrice,
+      image: deal.imageUrl || undefined,
+      imageAlt: deal.name,
+    });
+    setAddedIds((prev) => new Set(prev).add(deal.id));
+    setTimeout(() => {
+      setAddedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(deal.id);
+        return next;
+      });
+    }, 2000);
+  };
+
+  if (loading) {
+    return (
+      <section className="py-20" style={{ background: "#FFF8F0" }}>
+        <Container>
+          <div className="animate-pulse">
+            <div className="h-8 w-48 bg-gray-200 rounded mb-4" />
+            <div className="h-4 w-64 bg-gray-200 rounded mb-8" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-64 bg-gray-200 rounded-2xl" />
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  if (deals.length === 0) return null;
 
   return (
     <section
       className="py-20 relative overflow-hidden"
       style={{ background: "#FFF8F0" }}
     >
-      {/* Background decoration */}
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <div
           style={{
@@ -114,10 +171,8 @@ export function FlashSaleSection() {
       </div>
 
       <Container>
-        {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-12">
           <div>
-            {/* Flash label */}
             <div className="inline-flex items-center gap-2 mb-3">
               <span
                 style={{
@@ -163,88 +218,8 @@ export function FlashSaleSection() {
               Limited stock — Order karo aaj hi, kal nahi milega!
             </p>
           </div>
-
-          {/* Countdown Timer */}
-          {/* <div
-            style={{
-              background: "linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%)",
-              borderRadius: "20px",
-              padding: "20px 28px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "8px",
-              minWidth: "260px",
-              boxShadow: "0 12px 40px rgba(0,0,0,0.2)",
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-orange-400" />
-              <span
-                style={{
-                  color: "rgba(255,255,255,0.7)",
-                  fontSize: "0.78rem",
-                  fontWeight: 600,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                }}
-              >
-                Sale Ends In
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              {[pad(h), pad(m), pad(s)].map((val, i) => (
-                <>
-                  <div
-                    key={i}
-                    style={{
-                      background: "#FF6B00",
-                      color: "white",
-                      borderRadius: "10px",
-                      padding: "8px 14px",
-                      fontFamily: "'Courier New', monospace",
-                      fontSize: "1.8rem",
-                      fontWeight: 700,
-                      lineHeight: 1,
-                      minWidth: "60px",
-                      textAlign: "center",
-                    }}
-                  >
-                    {val}
-                  </div>
-                  {i < 2 && (
-                    <span
-                      style={{
-                        color: "#FF6B00",
-                        fontSize: "1.8rem",
-                        fontWeight: 700,
-                      }}
-                    >
-                      :
-                    </span>
-                  )}
-                </>
-              ))}
-            </div>
-            <div className="flex gap-6">
-              {["Hours", "Mins", "Secs"].map((label) => (
-                <span
-                  key={label}
-                  style={{
-                    color: "rgba(255,255,255,0.4)",
-                    fontSize: "0.65rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-          </div> */}
         </div>
 
-        {/* Deal Cards */}
         <div
           style={{
             display: "grid",
@@ -252,128 +227,132 @@ export function FlashSaleSection() {
             gap: "20px",
           }}
         >
-          {deals.map((deal) => (
-            <div
-              key={deal.id}
-              style={{
-                background: deal.bgColor,
-                borderRadius: "24px",
-                padding: "24px",
-                border: "2px solid transparent",
-                transition: "transform 0.2s, box-shadow 0.2s, border-color 0.2s",
-                cursor: "pointer",
-                position: "relative",
-                overflow: "hidden",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget;
-                el.style.transform = "translateY(-6px)";
-                el.style.boxShadow = "0 20px 48px rgba(0,0,0,0.12)";
-                el.style.borderColor = deal.accentColor;
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget;
-                el.style.transform = "translateY(0)";
-                el.style.boxShadow = "none";
-                el.style.borderColor = "transparent";
-              }}
-            >
-              {/* Discount Badge */}
+          {deals.map((deal) => {
+            const bgColor = deal.bgColor || "#FFF3E0";
+            const accentColor = deal.accentColor || "#FF6B00";
+            const isAdded = addedIds.has(deal.id);
+
+            return (
               <div
+                key={deal.id}
                 style={{
-                  position: "absolute",
-                  top: "16px",
-                  right: "16px",
-                  background: deal.accentColor,
-                  color: "white",
-                  fontWeight: 700,
-                  fontSize: "0.8rem",
-                  padding: "4px 10px",
-                  borderRadius: "100px",
+                  background: bgColor,
+                  borderRadius: "24px",
+                  padding: "24px",
+                  border: "2px solid transparent",
+                  transition:
+                    "transform 0.2s, box-shadow 0.2s, border-color 0.2s",
+                  cursor: "pointer",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(-6px)";
+                  el.style.boxShadow = "0 20px 48px rgba(0,0,0,0.12)";
+                  el.style.borderColor = accentColor;
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(0)";
+                  el.style.boxShadow = "none";
+                  el.style.borderColor = "transparent";
                 }}
               >
-                -{deal.discount}%
-              </div>
-
-              {/* Tag */}
-              <div className="flex items-center gap-1 mb-3">
-                <Tag className="w-3 h-3" style={{ color: deal.accentColor }} />
-                <span
+                <div
                   style={{
-                    fontSize: "0.7rem",
+                    position: "absolute",
+                    top: "16px",
+                    right: "16px",
+                    background: accentColor,
+                    color: "white",
                     fontWeight: 700,
-                    color: deal.accentColor,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
+                    fontSize: "0.8rem",
+                    padding: "4px 10px",
+                    borderRadius: "100px",
                   }}
                 >
-                  {deal.tag}
-                </span>
-              </div>
+                  -{deal.discount}%
+                </div>
 
-              {/* Emoji */}
-              <div
-                style={{
-                  fontSize: "4rem",
-                  marginBottom: "12px",
-                  lineHeight: 1,
-                  filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))",
-                }}
-              >
-                {deal.emoji}
-              </div>
+                {deal.tag && (
+                  <div className="flex items-center gap-1 mb-3">
+                    <Tag className="w-3 h-3" style={{ color: accentColor }} />
+                    <span
+                      style={{
+                        fontSize: "0.7rem",
+                        fontWeight: 700,
+                        color: accentColor,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                      }}
+                    >
+                      {deal.tag}
+                    </span>
+                  </div>
+                )}
 
-              {/* Product info */}
-              <h3
-                style={{
-                  fontFamily: "'Georgia', serif",
-                  fontSize: "1.2rem",
-                  fontWeight: 700,
-                  color: "#1A1A1A",
-                  marginBottom: "4px",
-                }}
-              >
-                {deal.name}
-              </h3>
-              <p
-                style={{
-                  fontSize: "0.85rem",
-                  color: "#666",
-                  marginBottom: "16px",
-                }}
-              >
-                {deal.subtitle}
-              </p>
+                <div
+                  style={{
+                    fontSize: "4rem",
+                    marginBottom: "12px",
+                    lineHeight: 1,
+                    filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.1))",
+                  }}
+                >
+                  {deal.emoji || "🎁"}
+                </div>
 
-              {/* Price */}
-              <div className="flex items-baseline gap-3 mb-4">
-                <span
+                <h3
                   style={{
                     fontFamily: "'Georgia', serif",
-                    fontSize: "1.6rem",
-                    fontWeight: 800,
-                    color: deal.accentColor,
+                    fontSize: "1.2rem",
+                    fontWeight: 700,
+                    color: "#1A1A1A",
+                    marginBottom: "4px",
                   }}
                 >
-                  Rs. {deal.salePrice}
-                </span>
-                <span
-                  style={{
-                    fontSize: "1rem",
-                    color: "#999",
-                    textDecoration: "line-through",
-                  }}
-                >
-                  Rs. {deal.originalPrice}
-                </span>
-              </div>
+                  {deal.name}
+                </h3>
+                {deal.subtitle && (
+                  <p
+                    style={{
+                      fontSize: "0.85rem",
+                      color: "#666",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    {deal.subtitle}
+                  </p>
+                )}
 
-              {/* CTA */}
-              <Link href="/products">
+                <div className="flex items-baseline gap-3 mb-4">
+                  <span
+                    style={{
+                      fontFamily: "'Georgia', serif",
+                      fontSize: "1.6rem",
+                      fontWeight: 800,
+                      color: accentColor,
+                    }}
+                  >
+                    Rs. {deal.salePrice}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "1rem",
+                      color: "#999",
+                      textDecoration: "line-through",
+                    }}
+                  >
+                    Rs. {deal.originalPrice}
+                  </span>
+                </div>
+
                 <button
+                  onClick={() => handleAddToCart(deal)}
                   style={{
                     width: "100%",
-                    background: deal.accentColor,
+                    background: isAdded ? "#22c55e" : accentColor,
                     color: "white",
                     fontWeight: 700,
                     fontSize: "0.9rem",
@@ -385,59 +364,36 @@ export function FlashSaleSection() {
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "8px",
-                    transition: "opacity 0.2s",
+                    transition: "all 0.2s",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.opacity = "0.85")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.opacity = "1")
-                  }
+                  onMouseEnter={(e) => {
+                    if (!isAdded) e.currentTarget.style.opacity = "0.85";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = "1";
+                  }}
                 >
-                  <Flame className="w-4 h-4" />
-                  Grab This Deal
+                  {isAdded ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Added to Cart
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-4 h-4" />
+                      Add to Cart
+                    </>
+                  )}
                 </button>
-              </Link>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
 
-        {/* Bottom CTA */}
         <div className="text-center mt-12">
-          <Link href="/products">
-            <button
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "10px",
-                background: "linear-gradient(135deg, #FF6B00, #FF8C00)",
-                color: "white",
-                fontWeight: 700,
-                fontSize: "1.05rem",
-                padding: "16px 36px",
-                borderRadius: "100px",
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 8px 32px rgba(255,107,0,0.35)",
-                transition: "transform 0.2s, box-shadow 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow =
-                  "0 12px 40px rgba(255,107,0,0.45)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 8px 32px rgba(255,107,0,0.35)";
-              }}
-            >
-              Ready for a Creamy Treat? Let&apos;s Shop! 🛒
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </Link>
-          <p style={{ color: "#999", marginTop: "12px", fontSize: "0.85rem" }}>
-            Bulk orders? Call us: <strong style={{ color: "#FF6B00" }}>0300-1234567</strong>
+          <p style={{ color: "#999", fontSize: "0.85rem" }}>
+            Bulk orders? Call us:{" "}
+            <strong style={{ color: "#FF6B00" }}>{constants.phone}</strong>
           </p>
         </div>
       </Container>

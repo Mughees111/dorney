@@ -71,8 +71,8 @@ model HeroSlide {
 
 model FAQ {
   id          String   @id @default(cuid())
-  question    String
-  answer      String
+  question    String   @db.Text
+  answer      String   @db.Text
   category    String   @default("general") // general, retailer, etc.
   displayOrder Int     @default(0) @map("display_order")
   isActive    Boolean  @default(true) @map("is_active")
@@ -122,4 +122,24 @@ model Admin {
   lastLogin DateTime? @map("last_login")
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
+}
+
+model FlashDeal {
+  id            String   @id @default(cuid())
+  name          String
+  subtitle      String?
+  originalPrice Decimal  @map("original_price") @db.Decimal(10, 2)
+  salePrice     Decimal  @map("sale_price") @db.Decimal(10, 2)
+  discount      Int      @default(0)
+  emoji         String?
+  tag           String?
+  bgColor       String?  @map("bg_color")
+  accentColor   String?  @map("accent_color")
+  imageUrl      String?  @map("image_url")
+  isActive      Boolean  @default(true) @map("is_active")
+  displayOrder  Int      @default(0) @map("display_order")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("flash_deals")
 }

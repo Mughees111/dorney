@@ -121,7 +121,7 @@ export function CoreValues() {
               lineHeight: 1.7,
             }}
           >
-            Pakistan mein trusted manufacturer ban'ne ki wajah sirf yahi hai — har cheez mein quality, har baar.
+            Pakistan mein trusted manufacturer ban&apos;ne ki wajah sirf yahi hai — har cheez mein quality, har baar.
           </p>
         </div>
 
