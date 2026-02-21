@@ -11,6 +11,7 @@ export default function EditHeroSlidePage() {
   const id = params.id as string;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     title: "",
@@ -110,6 +111,7 @@ export default function EditHeroSlidePage() {
           <label className="block text-sm font-medium text-gray-700">Image</label>
           <CloudinaryUpload
             onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+            onUploadingChange={setImageUploading}
             folder="dorney/hero"
           />
           {form.imageUrl && (
@@ -126,10 +128,10 @@ export default function EditHeroSlidePage() {
         </div>
         <button
           type="submit"
-          disabled={saving}
+          disabled={saving || imageUploading}
           className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 disabled:opacity-50"
         >
-          {saving ? "Saving…" : "Save"}
+          {imageUploading ? "Uploading image…" : saving ? "Saving…" : "Save"}
         </button>
       </form>
     </div>

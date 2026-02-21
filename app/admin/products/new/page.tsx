@@ -24,6 +24,7 @@ export default function NewProductPage() {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
@@ -220,6 +221,7 @@ export default function NewProductPage() {
             </label>
             <CloudinaryUpload
               onUpload={addImage}
+              onUploadingChange={setImageUploading}
               folder="dorney/products"
             />
             {form.imageUrls.length > 0 && (
@@ -304,10 +306,10 @@ export default function NewProductPage() {
           </div>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || imageUploading}
             className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm"
           >
-            {loading ? "Creating…" : "Create Product"}
+            {imageUploading ? "Uploading image…" : loading ? "Creating…" : "Create Product"}
           </button>
         </div>
       </form>

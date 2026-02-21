@@ -16,6 +16,7 @@ import {
 export default function NewCategoryPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
@@ -115,7 +116,11 @@ export default function NewCategoryPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Image</label>
-            <CloudinaryUpload onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))} folder="dorney/categories" />
+            <CloudinaryUpload
+              onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+              onUploadingChange={setImageUploading}
+              folder="dorney/categories"
+            />
             {form.imageUrl && (
               <img src={form.imageUrl} alt="Preview" className="mt-3 h-28 w-28 rounded-lg object-cover border border-gray-200" />
             )}
@@ -138,8 +143,12 @@ export default function NewCategoryPage() {
             <label className="block text-sm font-semibold text-gray-700 mb-1">Meta Description</label>
             <input value={form.metaDescription} onChange={(e) => setForm((f) => ({ ...f, metaDescription: e.target.value }))} placeholder="Optional - for search engine snippets" className={inputClass} />
           </div>
-          <button type="submit" disabled={loading} className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm">
-            {loading ? "Creating…" : "Create Category"}
+          <button
+            type="submit"
+            disabled={loading || imageUploading}
+            className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm"
+          >
+            {imageUploading ? "Uploading image…" : loading ? "Creating…" : "Create Category"}
           </button>
         </div>
       </form>

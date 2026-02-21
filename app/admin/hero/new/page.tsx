@@ -14,6 +14,7 @@ import {
 export default function NewHeroSlidePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     title: "",
@@ -121,6 +122,7 @@ export default function NewHeroSlidePage() {
             </label>
             <CloudinaryUpload
               onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+              onUploadingChange={setImageUploading}
               folder="dorney/hero"
             />
             {form.imageUrl && (
@@ -146,10 +148,10 @@ export default function NewHeroSlidePage() {
           </div>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || imageUploading}
             className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm"
           >
-            {loading ? "Creating…" : "Create Slide"}
+            {imageUploading ? "Uploading image…" : loading ? "Creating…" : "Create Slide"}
           </button>
         </div>
       </form>

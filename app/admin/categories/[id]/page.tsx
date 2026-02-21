@@ -21,6 +21,7 @@ export default function EditCategoryPage() {
   const id = params.id as string;
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
@@ -127,7 +128,11 @@ export default function EditCategoryPage() {
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Image</label>
-            <CloudinaryUpload onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))} folder="dorney/categories" />
+            <CloudinaryUpload
+              onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+              onUploadingChange={setImageUploading}
+              folder="dorney/categories"
+            />
             {form.imageUrl ? (
               <div className="mt-3 flex items-center gap-4">
                 <img src={form.imageUrl} alt="Preview" className="h-28 w-28 rounded-lg object-cover border border-gray-200" />
@@ -156,8 +161,12 @@ export default function EditCategoryPage() {
             <label className="block text-sm font-semibold text-gray-700 mb-1">Meta Description</label>
             <input value={form.metaDescription} onChange={(e) => setForm((f) => ({ ...f, metaDescription: e.target.value }))} className={inputClass} />
           </div>
-          <button type="submit" disabled={saving} className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm">
-            {saving ? "Saving…" : "Save"}
+          <button
+            type="submit"
+            disabled={saving || imageUploading}
+            className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm"
+          >
+            {imageUploading ? "Uploading image…" : saving ? "Saving…" : "Save"}
           </button>
         </div>
       </form>

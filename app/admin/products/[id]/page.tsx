@@ -29,6 +29,7 @@ export default function EditProductPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
@@ -190,7 +191,11 @@ export default function EditProductPage() {
           <KeywordsField value={form.keywordsInput} onChange={(v) => setForm((f) => ({ ...f, keywordsInput: v }))} />
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Images</label>
-            <CloudinaryUpload onUpload={addImage} folder="dorney/products" />
+            <CloudinaryUpload
+              onUpload={addImage}
+              onUploadingChange={setImageUploading}
+              folder="dorney/products"
+            />
             {form.imageUrls.length > 0 && (
               <div className="mt-3 space-y-3">
                 {form.imageUrls.map((url, i) => (
@@ -226,8 +231,12 @@ export default function EditProductPage() {
             <label className="block text-sm font-semibold text-gray-700 mb-1">Meta Description</label>
             <input value={form.metaDescription} onChange={(e) => setForm((f) => ({ ...f, metaDescription: e.target.value }))} className={inputClass} />
           </div>
-          <button type="submit" disabled={saving} className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm">
-            {saving ? "Saving…" : "Save"}
+          <button
+            type="submit"
+            disabled={saving || imageUploading}
+            className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-sm"
+          >
+            {imageUploading ? "Uploading image…" : saving ? "Saving…" : "Save"}
           </button>
         </div>
       </form>
