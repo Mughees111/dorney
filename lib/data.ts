@@ -754,3 +754,27 @@ export const manufacturingSteps = [
   { id: "5", step: "Step 5", title: "Packaging", description: "Products are carefully packaged in hygienic conditions to maintain freshness and extend shelf life." },
   { id: "6", step: "Step 6", title: "Distribution", description: "Efficient logistics network ensures timely delivery to retailers across all major cities." },
 ];
+
+export const testimonials = [
+  {
+    id: "1",
+    name: "Ahmed Khan",
+    role: "Retail Store Owner, Lahore",
+    content: "Dorney's products have transformed my store's bakery section. The quality is unmatched, and my customers keep coming back for more. Their delivery is always on time, and the wholesale prices are very competitive.",
+    rating: 5,
+  },
+  {
+    id: "2",
+    name: "Fatima Ali",
+    role: "Supermarket Manager, Karachi",
+    content: "We've been partnering with Dorney for over 2 years now. Their cream cakes and biscuits are our best-sellers. The consistency in quality and the support from their team is exceptional.",
+    rating: 5,
+  },
+  {
+    id: "3",
+    name: "Muhammad Rizwan",
+    role: "Convenience Store Chain Owner, Islamabad",
+    content: "Dorney understands the retail business. Their products help us maintain high margins while keeping customers satisfied. The packaging is professional and the shelf life is impressive.",
+    rating: 5,
+  },
+];

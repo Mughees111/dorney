@@ -19,9 +19,9 @@ const config: Config = {
         gold: "#D4AF37",
       },
       fontFamily: {
-        cookie: ["Cookie", "cursive"],
-        poppins: ["Poppins", "sans-serif"],
-        inter: ["Inter", "sans-serif"],
+        cookie: ["var(--font-cookie)", "cursive"],
+        poppins: ["var(--font-poppins)", "sans-serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
       },
       backgroundImage: {
         "gradient-primary":

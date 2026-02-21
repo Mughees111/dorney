@@ -1,15 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
-import { categories } from "@/lib/data";
+import { categories as fallbackCategories } from "@/lib/data";
+import type { ApiCategory } from "@/lib/api";
+
+interface CatItem {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  image: string;
+}
 
 export function ProductCategories() {
+  const [categories, setCategories] = useState<CatItem[]>(
+    fallbackCategories.map((c) => ({ ...c, image: c.image }))
+  );
   const [activeFilter, setActiveFilter] = useState("all");
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: ApiCategory[] | null) => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setCategories(
+            data.map((c) => ({
+              id: c.id,
+              name: c.name,
+              slug: c.slug,
+              description: c.description ?? "",
+              image: c.image || c.imageUrl || "/images/categories/cakes.webp",
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const filteredCategories =
     activeFilter === "all"
