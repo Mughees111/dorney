@@ -40,16 +40,23 @@ export const metadata: Metadata = {
     "biscuits supplier Lahore",
     "food manufacturing Pakistan",
     "retailer partnership",
+    "cup cakes",
+    "toffees",
+    "lollipops",
+    "snacks",
   ],
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     siteName: "Dornay",
     locale: "en_PK",
-    images: [{ url: "/Meta.png", width: 1200, height: 630 }],
+    images: [{ url: "/Meta.jpeg", width: 1200, height: 630 }],
   },
+
   twitter: {
     card: "summary_large_image",
+    images: ["/Meta.jpeg"],
+
   },
 };
 
