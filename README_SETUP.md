@@ -78,3 +78,60 @@ npm run dev
 - Login at `/admin/login`
 - JWT stored in httpOnly cookie
 - To create more admins: insert into `admins` table (via Supabase SQL Editor or Prisma Studio) with bcrypt-hashed password
+
+---
+
+## 6. Vercel Deployment (Production)
+
+### You do NOT need these
+
+- `NEXT_PUBLIC_SUPABASE_URL` – only for Supabase Auth/Realtime client
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` – only for Supabase client SDK
+
+This app uses **Prisma + Supabase PostgreSQL** (plain Postgres), not the Supabase JS client.
+
+### What you need on Vercel
+
+In Vercel: **Project → Settings → Environment Variables**, add:
+
+| Variable | Required | Notes |
+|----------|----------|-------|
+| `DATABASE_URL` | Yes | See format below |
+| `JWT_SECRET` | Yes | Same as local (min 32 chars) |
+| `CLOUDINARY_API_KEY` | Yes | From Cloudinary dashboard |
+| `CLOUDINARY_API_SECRET` | Yes | From Cloudinary dashboard |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Yes | From Cloudinary dashboard |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Yes | e.g. `923164095608` |
+| `NEXT_PUBLIC_SITE_URL` | Yes | Your site URL, e.g. `https://your-app.vercel.app` |
+
+### Critical: `DATABASE_URL` for Vercel
+
+Vercel uses serverless functions, so you must use the **Transaction mode** (pooled) connection string, not Session mode.
+
+1. Supabase Dashboard → **Project Settings** → **Database**
+2. Under **Connection string**, choose **URI**
+3. Select **Transaction** (port **6543**)
+4. Copy the string and replace `[YOUR-PASSWORD]` with your DB password
+5. Add `?pgbouncer=true` at the end
+
+**Format:**
+```
+postgresql://postgres.[PROJECT-REF]:[YOUR-PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true
+```
+
+**Example:**
+```
+postgresql://postgres.abcdefghijk:mySecretPass123@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true
+```
+
+### Summary
+
+| Environment | DATABASE_URL |
+|-------------|--------------|
+| Local dev | Session mode (port 5432) – works with Prisma Studio, migrations |
+| Vercel (prod) | Transaction mode (port 6543) + `?pgbouncer=true` |
+
+### After deployment
+
+1. Redeploy after changing env vars.
+2. Run `npm run db:push` and `npm run db:seed` from your machine if the DB is empty.
