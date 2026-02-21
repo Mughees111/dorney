@@ -39,12 +39,11 @@ export default function EditProductPage() {
     description: "",
     price: "",
     featured: false,
+    image: "",
     imageAlt: "",
     metaTitle: "",
     metaDescription: "",
     keywordsInput: "",
-    imageUrls: [] as string[],
-    imageAlts: [] as string[],
   });
 
   useEffect(() => {
@@ -54,7 +53,6 @@ export default function EditProductPage() {
     ]).then(([cats, product]) => {
       setCategories(Array.isArray(cats) ? cats : []);
       if (product?.id) {
-        const imgs = product.images || product.productImages || [];
         const kw = Array.isArray(product.keywords) ? product.keywords : [];
         setForm({
           name: product.name ?? "",
@@ -64,12 +62,11 @@ export default function EditProductPage() {
           description: product.description ?? "",
           price: String(product.price ?? ""),
           featured: product.featured ?? false,
+          image: product.image ?? "",
           imageAlt: product.imageAlt ?? "",
           metaTitle: product.metaTitle ?? "",
           metaDescription: product.metaDescription ?? "",
           keywordsInput: kw.join(", "),
-          imageUrls: imgs.map((i: { url: string }) => i.url),
-          imageAlts: imgs.map((i: { alt?: string }) => i.alt ?? ""),
         });
       }
     }).catch(() => {}).finally(() => setLoading(false));
@@ -95,10 +92,6 @@ export default function EditProductPage() {
         return;
       }
       const keywords = parseKeywordsInput(form.keywordsInput);
-      const images = form.imageUrls.map((url, i) => ({
-        imageUrl: url,
-        imageAlt: form.imageAlts[i] || form.imageAlt,
-      }));
       const res = await fetch(`/api/products/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -111,11 +104,11 @@ export default function EditProductPage() {
           description: form.description || undefined,
           price,
           featured: form.featured,
+          image: form.image || undefined,
           imageAlt: form.imageAlt || undefined,
           metaTitle: form.metaTitle || undefined,
           metaDescription: form.metaDescription || undefined,
           keywords,
-          images: images.length ? images : undefined,
         }),
       });
       const data = await res.json();
@@ -131,8 +124,7 @@ export default function EditProductPage() {
   const addImage = (url: string) => {
     setForm((f) => ({
       ...f,
-      imageUrls: [...f.imageUrls, url],
-      imageAlts: [...f.imageAlts, ""],
+      image: url,
     }));
   };
 
@@ -190,34 +182,29 @@ export default function EditProductPage() {
           </div>
           <KeywordsField value={form.keywordsInput} onChange={(v) => setForm((f) => ({ ...f, keywordsInput: v }))} />
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Images</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Product Image</label>
             <CloudinaryUpload
               onUpload={addImage}
               onUploadingChange={setImageUploading}
               folder="dorney/products"
             />
-            {form.imageUrls.length > 0 && (
-              <div className="mt-3 space-y-3">
-                {form.imageUrls.map((url, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                    <img src={url} alt="" className="h-20 w-20 rounded-lg object-cover" />
-                    <input
-                      placeholder="Alt text"
-                      value={form.imageAlts[i]}
-                      onChange={(e) => {
-                        const a = [...form.imageAlts];
-                        a[i] = e.target.value;
-                        setForm((f) => ({ ...f, imageAlts: a }));
-                      }}
-                      className={`${inputClass} flex-1`}
-                    />
-                    <button type="button" onClick={() => setForm((f) => ({ ...f, imageUrls: f.imageUrls.filter((_, j) => j !== i), imageAlts: f.imageAlts.filter((_, j) => j !== i) }))} className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg">
-                      Remove
-                    </button>
-                  </div>
-                ))}
+            {form.image && (
+              <div className="mt-3 flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                <img src={form.image} alt="" className="h-20 w-20 rounded-lg object-cover" />
+                <button type="button" onClick={() => setForm((f) => ({ ...f, image: "" }))} className="px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg">
+                  Remove
+                </button>
               </div>
             )}
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Image Alt (accessibility)</label>
+            <input
+              value={form.imageAlt}
+              onChange={(e) => setForm((f) => ({ ...f, imageAlt: e.target.value }))}
+              className={inputClass}
+              placeholder="Describe the image for screen readers"
+            />
           </div>
           <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
             <input type="checkbox" id="featured" checked={form.featured} onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" />

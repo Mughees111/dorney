@@ -16,7 +16,8 @@ interface ProductCardProduct {
   category: string;
   shortDescription?: string | null;
   price: number;
-  images: { url: string; alt: string }[];
+  image?: string | null;
+  imageAlt?: string | null;
 }
 
 interface ProductCardProps {
@@ -34,9 +35,8 @@ export function ProductCard({ product }: ProductCardProps) {
     typeof category === "string"
       ? category.charAt(0).toUpperCase() + category.slice(1)
       : "";
-  const mainImage = product.images?.[0];
-  const imageUrl = mainImage?.url ?? "";
-  const imageAlt = mainImage?.alt ?? product.name;
+  const imageUrl = product.image || "/images/products/featuredProduct1.png";
+  const imageAlt = product.imageAlt ?? product.name;
 
   const cartItem = items.find(item => item.id === product.id);
   const quantity = cartItem?.quantity || 0;

@@ -13,7 +13,7 @@ export async function GET(
   try {
     const product = await prisma.product.findUnique({
       where: { slug },
-      include: { category: true, productImages: true },
+      include: { category: true },
     });
     if (!product) return NextResponse.json(null);
     return NextResponse.json({
@@ -28,14 +28,11 @@ export async function GET(
       description: product.description,
       price: Number(product.price),
       featured: product.featured,
+      image: product.image,
       imageAlt: product.imageAlt,
       metaTitle: product.metaTitle,
       metaDescription: product.metaDescription,
       keywords: (product.keywords as string[]) || [],
-      images: product.productImages.map((i) => ({
-        url: i.imageUrl,
-        alt: i.imageAlt || product.imageAlt || product.name,
-      })),
     });
   } catch (e) {
     console.error(e);

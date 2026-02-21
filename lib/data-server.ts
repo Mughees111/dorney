@@ -11,7 +11,6 @@ export async function getProductsFromDb(): Promise<ApiProduct[] | null> {
     const products = await prisma.product.findMany({
       include: {
         category: true,
-        productImages: true,
       },
       orderBy: { createdAt: "desc" },
     });
@@ -27,14 +26,11 @@ export async function getProductsFromDb(): Promise<ApiProduct[] | null> {
       description: p.description,
       price: Number(p.price),
       featured: p.featured,
+      image: p.image,
       imageAlt: p.imageAlt,
       metaTitle: p.metaTitle,
       metaDescription: p.metaDescription,
       keywords: (p.keywords as string[]) || [],
-      images: p.productImages.map((i) => ({
-        url: i.imageUrl,
-        alt: i.imageAlt || p.imageAlt || p.name,
-      })),
     }));
   } catch (e) {
     console.error("[data-server] getProductsFromDb error:", e);
@@ -72,7 +68,7 @@ export async function getProductBySlugFromDb(
   try {
     const product = await prisma.product.findUnique({
       where: { slug },
-      include: { category: true, productImages: true },
+      include: { category: true },
     });
     if (!product) return null;
     return {
@@ -87,14 +83,11 @@ export async function getProductBySlugFromDb(
       description: product.description,
       price: Number(product.price),
       featured: product.featured,
+      image: product.image,
       imageAlt: product.imageAlt,
       metaTitle: product.metaTitle,
       metaDescription: product.metaDescription,
       keywords: (product.keywords as string[]) || [],
-      images: product.productImages.map((i) => ({
-        url: i.imageUrl,
-        alt: i.imageAlt || product.imageAlt || product.name,
-      })),
     };
   } catch (e) {
     console.error("[data-server] getProductBySlugFromDb error:", e);

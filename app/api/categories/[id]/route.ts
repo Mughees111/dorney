@@ -27,7 +27,7 @@ export async function GET(
   try {
     const category = await prisma.category.findUnique({
       where: { id },
-      include: { products: { include: { productImages: true } } },
+      include: { products: true },
     });
     if (!category) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({

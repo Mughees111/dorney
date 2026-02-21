@@ -15,11 +15,11 @@ export interface ApiProduct {
   description?: string | null;
   price: number;
   featured: boolean;
+  image?: string | null;
   imageAlt?: string | null;
   metaTitle?: string | null;
   metaDescription?: string | null;
   keywords: string[];
-  images: { url: string; alt: string }[];
 }
 
 export interface ApiCategory {

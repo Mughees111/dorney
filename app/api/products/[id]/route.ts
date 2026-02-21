@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/auth";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 const updateProductSchema = z.object({
   name: z.string().min(1).optional(),
@@ -16,11 +17,11 @@ const updateProductSchema = z.object({
   description: z.string().optional(),
   price: z.number().positive().optional(),
   featured: z.boolean().optional(),
+  image: z.string().optional(),
   imageAlt: z.string().optional(),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
   keywords: z.array(z.string()).optional(),
-  images: z.array(z.object({ imageUrl: z.string(), imageAlt: z.string().optional() })).optional(),
 });
 
 export async function GET(
@@ -31,17 +32,13 @@ export async function GET(
   try {
     const product = await prisma.product.findUnique({
       where: { id },
-      include: { category: true, productImages: true },
+      include: { category: true },
     });
     if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({
       ...product,
       price: Number(product.price),
       keywords: (product.keywords as string[]) || [],
-      images: product.productImages.map((i) => ({
-        url: i.imageUrl,
-        alt: i.imageAlt || product.imageAlt || product.name,
-      })),
     });
   } catch (e) {
     console.error(e);
@@ -64,9 +61,6 @@ export async function PUT(
   try {
     const body = await req.json();
     const data = updateProductSchema.parse(body);
-    if (data.images) {
-      await prisma.productImage.deleteMany({ where: { productId: id } });
-    }
     const product = await prisma.product.update({
       where: { id },
       data: {
@@ -77,21 +71,17 @@ export async function PUT(
         ...(data.description !== undefined && { description: data.description }),
         ...(data.price !== undefined && { price: data.price }),
         ...(data.featured !== undefined && { featured: data.featured }),
+        ...(data.image !== undefined && { image: data.image }),
         ...(data.imageAlt !== undefined && { imageAlt: data.imageAlt }),
         ...(data.metaTitle !== undefined && { metaTitle: data.metaTitle }),
         ...(data.metaDescription !== undefined && { metaDescription: data.metaDescription }),
         ...(data.keywords && { keywords: data.keywords as object }),
-        ...(data.images?.length && {
-          productImages: {
-            create: data.images.map((img) => ({
-              imageUrl: img.imageUrl,
-              imageAlt: img.imageAlt,
-            })),
-          },
-        }),
       },
-      include: { category: true, productImages: true },
+      include: { category: true },
     });
+    // Revalidate the product page and products listing
+    revalidatePath(`/products/${product.slug}`);
+    revalidatePath('/products');
     return NextResponse.json(product);
   } catch (e) {
     if (e instanceof z.ZodError)

@@ -21,7 +21,8 @@ function toProductCardFormat(p: ApiProduct | (typeof fallbackProducts)[0]) {
     category: cat ?? "",
     shortDescription: (p as { shortDescription?: string }).shortDescription ?? "",
     price: (p as { price: number }).price,
-    images: (p as { images: { url: string; alt: string }[] }).images ?? [],
+    image: (p as { image?: string }).image,
+    imageAlt: (p as { imageAlt?: string }).imageAlt,
   };
 }
 

@@ -32,7 +32,8 @@ export interface Product {
   shortDescription: string;
   description: string;
   price: number;
-  images: ProductImage[];
+  image?: string;
+  imageAlt?: string;
   metaTitle: string;
   metaDescription: string;
   keywords: string[];
@@ -110,12 +111,7 @@ export const products: Product[] = [
     description:
       "Our Chocolate Cup Cake is made with premium cocoa and a soft, moist sponge. Each bite delivers rich chocolate flavor with a creamy frosting that melts in your mouth. Perfect for parties, gifts, and everyday indulgence.",
     price: 50,
-    images: [
-      {
-        url: "/images/products/featuredProduct1.png",
-        alt: "Chocolate Cup Cake - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featuredProduct1.png",
     metaTitle: "Chocolate Cup Cake Price in Pakistan | Dornay",
     metaDescription:
       "Buy delicious chocolate cup cake at best price in Pakistan.",
@@ -131,12 +127,7 @@ export const products: Product[] = [
     description:
       "A timeless vanilla cupcake with soft sponge and smooth buttercream frosting. Made with real vanilla extract for authentic flavor.",
     price: 45,
-    images: [
-      {
-        url: "/images/products/featuredProduct2.png",
-        alt: "Vanilla Cup Cake - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featuredProduct2.png",
     metaTitle: "Vanilla Cup Cake Pakistan | Dornay Bakery",
     metaDescription: "Premium vanilla cup cake – soft and creamy.",
     keywords: ["vanilla cupcake", "bakery pakistan", "cream cakes"],
@@ -151,12 +142,7 @@ export const products: Product[] = [
     description:
       "Refreshing strawberry cupcake topped with light whipped cream and real strawberry pieces.",
     price: 55,
-    images: [
-      {
-        url: "/images/products/featuredProduct4.png",
-        alt: "Strawberry Cup Cake - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featuredProduct4.png",
     metaTitle: "Strawberry Cup Cake Price Pakistan | Dornay",
     metaDescription: "Buy strawberry cup cake online in Pakistan.",
     keywords: ["strawberry cupcake", "cream cakes pakistan"],
@@ -171,12 +157,7 @@ export const products: Product[] = [
     description:
       "Indulgent red velvet cupcake with signature cream cheese frosting. A favorite for special occasions.",
     price: 60,
-    images: [
-      {
-        url: "/images/products/featuredProduct5.png",
-        alt: "Red Velvet Cup Cake - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featuredProduct5.png",
     metaTitle: "Red Velvet Cup Cake Pakistan | Dornay",
     metaDescription: "Best red velvet cupcake in Pakistan – Dornay quality.",
     keywords: ["red velvet cupcake", "cream cheese cake pakistan"],
@@ -190,12 +171,7 @@ export const products: Product[] = [
     description:
       "Rich caramel-flavored cupcake with a luscious caramel drizzle. Perfect for caramel lovers.",
     price: 55,
-    images: [
-      {
-        url: "/images/products/featured7.png",
-        alt: "Caramel Cup Cake - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featured7.png",
     metaTitle: "Caramel Cup Cake Pakistan | Dornay",
     metaDescription: "Delicious caramel cup cake – buy in Pakistan.",
     keywords: ["caramel cupcake", "sweet cakes pakistan"],
@@ -209,12 +185,7 @@ export const products: Product[] = [
     description:
       "For coffee enthusiasts – our Coffee Cup Cake features bold coffee notes and smooth mocha frosting.",
     price: 50,
-    images: [
-      {
-        url: "/images/products/featuredProduct1.png",
-        alt: "Coffee Cup Cake - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featuredProduct1.png",
     metaTitle: "Coffee Cup Cake Pakistan | Dornay",
     metaDescription: "Coffee flavored cup cake – premium quality.",
     keywords: ["coffee cupcake", "mocha cake pakistan"],
@@ -229,12 +200,7 @@ export const products: Product[] = [
     description:
       "Classic butter toffee made with real butter and premium ingredients. Smooth, rich, and irresistibly delicious.",
     price: 25,
-    images: [
-      {
-        url: "/images/categories/dorneyToffees.webp",
-        alt: "Butter Toffee - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyToffees.webp",
     metaTitle: "Butter Toffee Price Pakistan | Dornay",
     metaDescription: "Best butter toffee in Pakistan – Dornay confectionery.",
     keywords: ["butter toffee", "toffee pakistan", "confectionery"],
@@ -249,12 +215,7 @@ export const products: Product[] = [
     description:
       "Golden caramel toffees with a deep, sweet flavor. Perfect for sharing or personal indulgence.",
     price: 30,
-    images: [
-      {
-        url: "/images/categories/dorneyToffees.webp",
-        alt: "Caramel Toffee - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyToffees.webp",
     metaTitle: "Caramel Toffee Pakistan | Dornay",
     metaDescription: "Premium caramel toffee – buy wholesale.",
     keywords: ["caramel toffee", "toffee wholesale pakistan"],
@@ -268,12 +229,7 @@ export const products: Product[] = [
     description:
       "Decadent toffee pieces coated in smooth milk chocolate. The perfect combination of crunch and melt.",
     price: 35,
-    images: [
-      {
-        url: "/images/categories/dorneyChocolates.webp",
-        alt: "Chocolate Toffee - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyChocolates.webp",
     metaTitle: "Chocolate Toffee Pakistan | Dornay",
     metaDescription: "Chocolate toffee – premium confectionery.",
     keywords: ["chocolate toffee", "confectionery pakistan"],
@@ -287,12 +243,7 @@ export const products: Product[] = [
     description:
       "Cool and refreshing mint toffees. A classic flavor loved by all ages.",
     price: 25,
-    images: [
-      {
-        url: "/images/categories/dorneyToffees.webp",
-        alt: "Mint Toffee - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyToffees.webp",
     metaTitle: "Mint Toffee Pakistan | Dornay",
     metaDescription: "Mint toffee – refreshing confectionery.",
     keywords: ["mint toffee", "peppermint candy pakistan"],
@@ -306,12 +257,7 @@ export const products: Product[] = [
     description:
       "Assorted fruit-flavored toffees including mango, strawberry, and orange. Fun for everyone.",
     price: 28,
-    images: [
-      {
-        url: "/images/categories/dorneyToffees.webp",
-        alt: "Fruit Toffee - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyToffees.webp",
     metaTitle: "Fruit Toffee Pakistan | Dornay",
     metaDescription: "Mixed fruit toffees – assorted flavors.",
     keywords: ["fruit toffee", "assorted toffees pakistan"],
@@ -325,12 +271,7 @@ export const products: Product[] = [
     description:
       "Sophisticated coffee toffee with real coffee extract. Perfect for coffee lovers.",
     price: 32,
-    images: [
-      {
-        url: "/images/categories/dorneyToffees.webp",
-        alt: "Coffee Toffee - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyToffees.webp",
     metaTitle: "Coffee Toffee Pakistan | Dornay",
     metaDescription: "Coffee toffee – premium adult confectionery.",
     keywords: ["coffee toffee", "adult candy pakistan"],
@@ -345,12 +286,7 @@ export const products: Product[] = [
     description:
       "Traditional round lollipops in assorted fruit flavors. A timeless treat for all ages.",
     price: 15,
-    images: [
-      {
-        url: "/images/categories/dorneyCadies.webp",
-        alt: "Classic Lollipop - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyCadies.webp",
     metaTitle: "Lollipops Wholesale Pakistan | Dornay",
     metaDescription: "Classic lollipops – assorted flavors.",
     keywords: ["lollipops pakistan", "candies wholesale"],
@@ -365,12 +301,7 @@ export const products: Product[] = [
     description:
       "Tangy and fun sour lollipops that deliver a punch of flavor. Popular with kids and teens.",
     price: 18,
-    images: [
-      {
-        url: "/images/categories/dorneySourChew.webp",
-        alt: "Sour Lollipop - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneySourChew.webp",
     metaTitle: "Sour Lollipops Pakistan | Dornay",
     metaDescription: "Sour lollipops – tangy candy.",
     keywords: ["sour lollipops", "sour candy pakistan"],
@@ -384,12 +315,7 @@ export const products: Product[] = [
     description:
       "Rich chocolate lollipops with a smooth, creamy texture. Perfect for chocolate enthusiasts.",
     price: 20,
-    images: [
-      {
-        url: "/images/categories/dorneyChocolates.webp",
-        alt: "Chocolate Lollipop - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyChocolates.webp",
     metaTitle: "Chocolate Lollipop Pakistan | Dornay",
     metaDescription: "Chocolate lollipops – premium candy.",
     keywords: ["chocolate lollipop", "chocolate candy pakistan"],
@@ -403,12 +329,7 @@ export const products: Product[] = [
     description:
       "Unique lollipops with a soft gummy center. Two textures in one delicious treat.",
     price: 22,
-    images: [
-      {
-        url: "/images/categories/dorneyCadies.webp",
-        alt: "Gummy Lollipop - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyCadies.webp",
     metaTitle: "Gummy Lollipop Pakistan | Dornay",
     metaDescription: "Gummy center lollipops – fun candy.",
     keywords: ["gummy lollipop", "chewy candy pakistan"],
@@ -422,12 +343,7 @@ export const products: Product[] = [
     description:
       "Our Mega Lollipop offers great value with an extra-large size. Multiple flavors available.",
     price: 30,
-    images: [
-      {
-        url: "/images/categories/dorneyCadies.webp",
-        alt: "Mega Lollipop - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyCadies.webp",
     metaTitle: "Mega Lollipop Pakistan | Dornay",
     metaDescription: "Extra large lollipops – value candy.",
     keywords: ["mega lollipop", "large lollipop pakistan"],
@@ -441,12 +357,7 @@ export const products: Product[] = [
     description:
       "Delicious sugar-free lollipops. Same great taste without the sugar – ideal for diabetics.",
     price: 25,
-    images: [
-      {
-        url: "/images/categories/dorneyCadies.webp",
-        alt: "Sugar Free Lollipop - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyCadies.webp",
     metaTitle: "Sugar Free Lollipops Pakistan | Dornay",
     metaDescription: "Sugar-free candy – guilt-free treat.",
     keywords: ["sugar free lollipop", "sugar free candy pakistan"],
@@ -461,12 +372,7 @@ export const products: Product[] = [
     description:
       "Golden butter biscuits made with the finest butter. Crispy, flavorful, and perfect with tea.",
     price: 40,
-    images: [
-      {
-        url: "/images/products/featuredProduct3.png",
-        alt: "Butter Biscuit - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featuredProduct3.png",
     metaTitle: "Butter Biscuit Pakistan | Dornay",
     metaDescription: "Premium butter biscuits – wholesale.",
     keywords: ["butter biscuit", "cookies pakistan", "tea biscuits"],
@@ -481,12 +387,7 @@ export const products: Product[] = [
     description:
       "Beloved chocolate chip biscuits loaded with real chocolate chunks. A household favorite.",
     price: 45,
-    images: [
-      {
-        url: "/images/products/featuredProduct6.png",
-        alt: "Chocolate Chip Biscuit - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featuredProduct6.png",
     metaTitle: "Chocolate Chip Biscuit Pakistan | Dornay",
     metaDescription: "Chocolate chip cookies – best price.",
     keywords: ["chocolate chip biscuit", "cookies pakistan"],
@@ -500,12 +401,7 @@ export const products: Product[] = [
     description:
       "Crunchy coconut biscuits with a tropical twist. Made with real coconut for authentic flavor.",
     price: 42,
-    images: [
-      {
-        url: "/images/products/featured8.png",
-        alt: "Coconut Biscuit - Dornay FMCG product",
-      },
-    ],
+    image: "/images/products/featured8.png",
     metaTitle: "Coconut Biscuit Pakistan | Dornay",
     metaDescription: "Coconut biscuits – tropical flavor.",
     keywords: ["coconut biscuit", "coconut cookies pakistan"],
@@ -519,12 +415,7 @@ export const products: Product[] = [
     description:
       "Two crispy biscuits with a layer of smooth vanilla cream in between. A classic treat.",
     price: 35,
-    images: [
-      {
-        url: "/images/categories/dorneyCookies.webp",
-        alt: "Cream Biscuit - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyCookies.webp",
     metaTitle: "Cream Biscuit Pakistan | Dornay",
     metaDescription: "Cream sandwich biscuits – premium.",
     keywords: ["cream biscuit", "sandwich biscuits pakistan"],
@@ -538,12 +429,7 @@ export const products: Product[] = [
     description:
       "Wholesome whole wheat digestive biscuits. A healthier option without compromising on taste.",
     price: 38,
-    images: [
-      {
-        url: "/images/categories/biscuits.webp",
-        alt: "Digestive Biscuit - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/biscuits.webp",
     metaTitle: "Digestive Biscuit Pakistan | Dornay",
     metaDescription: "Whole wheat digestive biscuits.",
     keywords: ["digestive biscuit", "whole wheat cookies pakistan"],
@@ -557,12 +443,7 @@ export const products: Product[] = [
     description:
       "Soft and crumbly milk biscuits with a rich, creamy taste. Perfect for dunking in tea.",
     price: 32,
-    images: [
-      {
-        url: "/images/categories/biscuits.webp",
-        alt: "Milk Biscuit - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/biscuits.webp",
     metaTitle: "Milk Biscuit Pakistan | Dornay",
     metaDescription: "Milk biscuits – soft and creamy.",
     keywords: ["milk biscuit", "milk cookies pakistan"],
@@ -577,12 +458,7 @@ export const products: Product[] = [
     description:
       "Light and crispy wafers layered with smooth vanilla cream. A delicate snack for any time.",
     price: 35,
-    images: [
-      {
-        url: "/images/categories/dorneyWaffers.webp",
-        alt: "Vanilla Wafer - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyWaffers.webp",
     metaTitle: "Vanilla Wafer Pakistan | Dornay",
     metaDescription: "Crispy vanilla wafers – premium snacks.",
     keywords: ["vanilla wafer", "wafers pakistan", "snacks"],
@@ -597,12 +473,7 @@ export const products: Product[] = [
     description:
       "Crispy wafer layers filled and coated with rich chocolate. Irresistibly crunchy.",
     price: 40,
-    images: [
-      {
-        url: "/images/categories/dorneyWaffers.webp",
-        alt: "Chocolate Wafer - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyWaffers.webp",
     metaTitle: "Chocolate Wafer Pakistan | Dornay",
     metaDescription: "Chocolate wafers – crispy snack.",
     keywords: ["chocolate wafer", "wafers wholesale pakistan"],
@@ -616,12 +487,7 @@ export const products: Product[] = [
     description:
       "Light wafers with a delightful strawberry cream filling. A fruity treat for snack lovers.",
     price: 38,
-    images: [
-      {
-        url: "/images/categories/dorneyWaffers.webp",
-        alt: "Strawberry Wafer - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyWaffers.webp",
     metaTitle: "Strawberry Wafer Pakistan | Dornay",
     metaDescription: "Strawberry wafers – fruity snack.",
     keywords: ["strawberry wafer", "fruit wafers pakistan"],
@@ -635,12 +501,7 @@ export const products: Product[] = [
     description:
       "Soft-baked cookies with a creamy center. Available in vanilla and chocolate variants.",
     price: 42,
-    images: [
-      {
-        url: "/images/categories/dorneyCookies.webp",
-        alt: "Cream Cookie - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyCookies.webp",
     metaTitle: "Cream Cookie Pakistan | Dornay",
     metaDescription: "Soft cream cookies – bakery snack.",
     keywords: ["cream cookie", "soft cookies pakistan"],
@@ -654,12 +515,7 @@ export const products: Product[] = [
     description:
       "Light, crispy crackers with a hint of salt. Perfect with cheese, dips, or on their own.",
     price: 30,
-    images: [
-      {
-        url: "/images/categories/dorneyWaffers.webp",
-        alt: "Crispy Cracker - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyWaffers.webp",
     metaTitle: "Crispy Cracker Pakistan | Dornay",
     metaDescription: "Salted crackers – light snack.",
     keywords: ["cracker pakistan", "salted snacks"],
@@ -673,12 +529,7 @@ export const products: Product[] = [
     description:
       "Crunchy cheese-flavored snack sticks. A savory option for snack time.",
     price: 45,
-    images: [
-      {
-        url: "/images/categories/dorneyCookies.webp",
-        alt: "Cheese Sticks - Dornay FMCG product",
-      },
-    ],
+    image: "/images/categories/dorneyCookies.webp",
     metaTitle: "Cheese Sticks Pakistan | Dornay",
     metaDescription: "Cheese sticks – savory snack.",
     keywords: ["cheese sticks", "savory snacks pakistan"],

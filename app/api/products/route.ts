@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/auth";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 const createProductSchema = z.object({
   name: z.string().min(1),
@@ -16,11 +17,11 @@ const createProductSchema = z.object({
   description: z.string().optional(),
   price: z.number().positive(),
   featured: z.boolean().optional(),
+  image: z.string().optional(),
   imageAlt: z.string().optional(),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
   keywords: z.array(z.string()).optional(),
-  images: z.array(z.object({ imageUrl: z.string(), imageAlt: z.string().optional() })).optional(),
 });
 
 export async function GET() {
@@ -28,7 +29,6 @@ export async function GET() {
     const products = await prisma.product.findMany({
       include: {
         category: true,
-        productImages: true,
       },
       orderBy: { createdAt: "desc" },
     });
@@ -44,14 +44,11 @@ export async function GET() {
       description: p.description,
       price: Number(p.price),
       featured: p.featured,
+      image: p.image,
       imageAlt: p.imageAlt,
       metaTitle: p.metaTitle,
       metaDescription: p.metaDescription,
       keywords: (p.keywords as string[]) || [],
-      images: p.productImages.map((i) => ({
-        url: i.imageUrl,
-        alt: i.imageAlt || p.imageAlt || p.name,
-      })),
     }));
     return NextResponse.json(mapped);
   } catch (e) {
@@ -80,28 +77,24 @@ export async function POST(req: NextRequest) {
         description: data.description,
         price: data.price,
         featured: data.featured ?? false,
+        image: data.image,
         imageAlt: data.imageAlt,
         metaTitle: data.metaTitle,
         metaDescription: data.metaDescription,
         keywords: data.keywords as object,
-        productImages: data.images?.length
-          ? {
-              create: data.images.map((img) => ({
-                imageUrl: img.imageUrl,
-                imageAlt: img.imageAlt,
-              })),
-            }
-          : undefined,
       },
-      include: { category: true, productImages: true },
+      include: { category: true },
     });
+    // Revalidate the product page and products listing
+    revalidatePath(`/products/${product.slug}`);
+    revalidatePath('/products');
     return NextResponse.json({
       id: product.id,
       name: product.name,
       slug: product.slug,
       category: product.category,
       price: Number(product.price),
-      images: product.productImages,
+      image: product.image,
     });
   } catch (e) {
     if (e instanceof z.ZodError)

@@ -35,8 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     typeof product.category === "object" && product.category
       ? (product.category as { name?: string }).name
       : getCategoryBySlug(product.category as string)?.name;
-  const imageUrl = product.images?.[0]
-    ? getAbsoluteUrl(product.images[0].url)
+  const imageUrl = (product as { image?: string }).image
+    ? getAbsoluteUrl((product as { image?: string }).image!)
     : undefined;
 
   return {
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: (product as { metaTitle?: string }).metaTitle || product.name,
       description: (product as { metaDescription?: string }).metaDescription || "",
       url: getAbsoluteUrl(`/products/${product.slug}`),
-      images: imageUrl ? [{ url: imageUrl, alt: product.images[0]?.alt || product.name }] : [],
+      images: imageUrl ? [{ url: imageUrl, alt: (product as { imageAlt?: string }).imageAlt || product.name }] : [],
       type: "website",
     },
     robots: { index: true, follow: true },
@@ -63,7 +63,7 @@ function ProductJsonLd({
   product: {
     name: string;
     description?: string | null;
-    images: { url: string }[];
+    image?: string | null;
     price: number;
     slug: string;
     category?: string | { slug?: string; name?: string } | null;
@@ -81,7 +81,7 @@ function ProductJsonLd({
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: product.images.map((i) => getAbsoluteUrl(i.url)),
+    image: product.image ? [getAbsoluteUrl(product.image)] : [],
     brand: { "@type": "Brand", name: "Dornay" },
     category: categoryName ?? undefined,
     offers: {
@@ -136,7 +136,7 @@ export default async function ProductPage({ params }: Props) {
     return getProductsByCategory(categorySlug).filter((p) => p.id !== product.id);
   })();
 
-  const mainImage = product.images?.[0];
+  const imageUrl = (product as { image?: string }).image;
 
   return (
     <>
@@ -158,8 +158,8 @@ export default async function ProductPage({ params }: Props) {
           <article className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-xl">
               <Image
-                src={mainImage?.url || "/images/products/featuredProduct1.png"}
-                alt={mainImage?.alt || (product as { imageAlt?: string }).imageAlt || product.name}
+                src={imageUrl || "/images/products/featuredProduct1.png"}
+                alt={(product as { imageAlt?: string }).imageAlt || product.name}
                 fill
                 className="object-contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -184,8 +184,8 @@ export default async function ProductPage({ params }: Props) {
                   name: product.name,
                   slug: product.slug,
                   price: product.price,
-                  image: mainImage?.url,
-                  imageAlt: mainImage?.alt || product.name,
+                  image: imageUrl,
+                  imageAlt: (product as { imageAlt?: string }).imageAlt || product.name,
                 }}
               />
             </div>
@@ -207,7 +207,8 @@ export default async function ProductPage({ params }: Props) {
                       category: (p as { category?: { slug?: string } }).category?.slug ?? categorySlug,
                       shortDescription: (p as { shortDescription?: string }).shortDescription ?? undefined,
                       price: (p as { price: number }).price,
-                      images: (p as { images: { url: string; alt: string }[] }).images ?? [],
+                      image: (p as { image?: string }).image,
+                      imageAlt: (p as { imageAlt?: string }).imageAlt,
                     }}
                   />
                 ))}
