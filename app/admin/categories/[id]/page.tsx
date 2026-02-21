@@ -74,7 +74,7 @@ export default function EditCategoryPage() {
           name: form.name,
           slug: form.slug || slugFromName(form.name),
           description: form.description || undefined,
-          imageUrl: form.imageUrl || undefined,
+          imageUrl: form.imageUrl || null,
           imageAlt: form.imageAlt || undefined,
           metaTitle: form.metaTitle || undefined,
           metaDescription: form.metaDescription || undefined,
@@ -128,7 +128,20 @@ export default function EditCategoryPage() {
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Image</label>
             <CloudinaryUpload onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))} folder="dorney/categories" />
-            {form.imageUrl && <img src={form.imageUrl} alt="Preview" className="mt-3 h-28 w-28 rounded-lg object-cover border border-gray-200" />}
+            {form.imageUrl ? (
+              <div className="mt-3 flex items-center gap-4">
+                <img src={form.imageUrl} alt="Preview" className="h-28 w-28 rounded-lg object-cover border border-gray-200" />
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, imageUrl: "" }))}
+                  className="text-sm text-red-600 hover:text-red-800 hover:underline"
+                >
+                  Clear image
+                </button>
+              </div>
+            ) : (
+              <p className="mt-2 text-sm text-gray-500">No image. Upload one above.</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Image Alt</label>

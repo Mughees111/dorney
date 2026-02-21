@@ -12,7 +12,7 @@ const updateCategorySchema = z.object({
   name: z.string().min(1).optional(),
   slug: z.string().min(1).optional(),
   description: z.string().optional(),
-  imageUrl: z.string().optional(),
+  imageUrl: z.union([z.string(), z.null()]).optional(),
   imageAlt: z.string().optional(),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
@@ -56,18 +56,19 @@ export async function PUT(
   try {
     const body = await req.json();
     const data = updateCategorySchema.parse(body);
+    const updateData: Record<string, unknown> = {};
+    if (data.name) updateData.name = data.name;
+    if (data.slug) updateData.slug = data.slug;
+    if (data.description !== undefined) updateData.description = data.description;
+    if (data.imageUrl !== undefined) updateData.imageUrl = data.imageUrl === "" || data.imageUrl === null ? null : data.imageUrl;
+    if (data.imageAlt !== undefined) updateData.imageAlt = data.imageAlt;
+    if (data.metaTitle !== undefined) updateData.metaTitle = data.metaTitle;
+    if (data.metaDescription !== undefined) updateData.metaDescription = data.metaDescription;
+    if (data.keywords) updateData.keywords = data.keywords as object;
+
     const category = await prisma.category.update({
       where: { id },
-      data: {
-        ...(data.name && { name: data.name }),
-        ...(data.slug && { slug: data.slug }),
-        ...(data.description !== undefined && { description: data.description }),
-        ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
-        ...(data.imageAlt !== undefined && { imageAlt: data.imageAlt }),
-        ...(data.metaTitle !== undefined && { metaTitle: data.metaTitle }),
-        ...(data.metaDescription !== undefined && { metaDescription: data.metaDescription }),
-        ...(data.keywords && { keywords: data.keywords as object }),
-      },
+      data: updateData,
     });
     return NextResponse.json(category);
   } catch (e) {

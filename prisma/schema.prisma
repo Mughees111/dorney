@@ -1,4 +1,4 @@
-// Dorney FMCG Bakery - MySQL Schema
+// Dorney FMCG Bakery - Supabase (PostgreSQL) Schema
 // Run: npx prisma db push (or migrate) after setting DATABASE_URL
 
 generator client {
@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -23,6 +23,8 @@ model Category {
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
   products        Product[]
+
+  @@map("categories")
 }
 
 model Product {
@@ -43,6 +45,8 @@ model Product {
   category        Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   productImages   ProductImage[]
   orderItems      OrderItem[]
+
+  @@map("products")
 }
 
 model ProductImage {
@@ -96,6 +100,8 @@ model Order {
   createdAt       DateTime    @default(now()) @map("created_at")
   updatedAt       DateTime    @updatedAt @map("updated_at")
   items           OrderItem[]
+
+  @@map("orders")
 }
 
 model OrderItem {
@@ -122,6 +128,8 @@ model Admin {
   lastLogin DateTime? @map("last_login")
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("admins")
 }
 
 model FlashDeal {

@@ -1,5 +1,5 @@
 /**
- * Database connection - Prisma client for MySQL
+ * Database connection - Prisma client for Supabase (PostgreSQL)
  * Used across API routes for data access
  */
 
