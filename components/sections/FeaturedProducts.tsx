@@ -1,10 +1,12 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { Button } from "@/components/ui/Button";
 import { products as fallbackProducts } from "@/lib/data";
 import type { ApiProduct } from "@/lib/api";
 
@@ -38,7 +40,7 @@ export function FeaturedProducts() {
           setProducts(featured.length > 0 ? featured : data.slice(0, 6));
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const scroll = (direction: "left" | "right") => {
@@ -54,7 +56,9 @@ export function FeaturedProducts() {
   return (
     <section className="py-20 bg-white">
       <Container>
-        <SectionTitle subtitle="Our Bestsellers">Featured Products</SectionTitle>
+        <div className="text-center mb-12">
+          <SectionTitle subtitle="Our Bestsellers">Featured Products</SectionTitle>
+        </div>
 
         <div className="relative">
           <button
@@ -85,6 +89,11 @@ export function FeaturedProducts() {
             <ChevronRight className="w-6 h-6" />
           </button>
         </div>
+        {/* <Link href="/products">
+          <Button variant="outline" size="lg" className="mt-6 w-full sm:w-auto">
+            Explore products
+          </Button>
+        </Link> */}
       </Container>
     </section>
   );

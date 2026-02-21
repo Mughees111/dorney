@@ -18,6 +18,15 @@ interface HeroSlide {
   displayOrder: number;
 }
 
+const floatingItems = [
+  { emoji: "🧁", top: "12%", left: "6%", delay: "0s", duration: "4s" },
+  { emoji: "🍭", top: "20%", right: "8%", delay: "0.8s", duration: "5s" },
+  { emoji: "🍬", top: "65%", left: "4%", delay: "1.2s", duration: "3.5s" },
+  { emoji: "🎂", top: "70%", right: "6%", delay: "0.4s", duration: "4.5s" },
+  { emoji: "🍡", top: "40%", left: "2%", delay: "2s", duration: "6s" },
+  { emoji: "🍩", top: "45%", right: "3%", delay: "1.6s", duration: "5.5s" },
+];
+
 const defaultSlides: HeroSlide[] = [
   {
     id: "1",
@@ -53,7 +62,7 @@ const defaultSlides: HeroSlide[] = [
   },
 ];
 
-const description = "Manufacturing premium sweet cakes, creamy cakes, cupcakes & biscuits with finest ingredients. Trusted partner for distributors & retailers across Pakistan – consistent quality & reliable delivery.";
+const description = "Delicious cakes, cupcakes, biscuits & confectionery made with premium ingredients. Order online for delivery across Pakistan or visit our retailers nationwide.";
 
 export function HeroSection() {
   const [slides, setSlides] = useState<HeroSlide[]>(defaultSlides);
@@ -72,7 +81,7 @@ export function HeroSection() {
           setSlides(sorted);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -87,22 +96,46 @@ export function HeroSection() {
   const imageAlt = slide?.imageAlt || "Dorney bakery products";
 
   return (
-    <section className="relative min-h-screen flex items-center bg-bgLight overflow-hidden">
+    <section className="relative min-h-screen flex  bg-bgLight overflow-hidden" style={{ backgroundColor: 'rgba(239, 233, 233, 0.9)9)' }} >
+
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-20 left-10 w-80 h-80 bg-primary/30 rounded-full blur-3xl" />
         <div className="absolute bottom-40 right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-72 h-72 bg-secondary/20 rounded-full blur-3xl" />
       </div>
 
-      <Container className="relative z-10 py-16 lg:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          <div className="text-center lg:text-left space-y-8 animate-fade-in">
+      <Container >
+
+
+        {/* className="relative z-10 py-16 lg:py-24" */}
+        {/* <h1>MUghees</h1> */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 lg:gap-16 ">
+           {floatingItems.map((item, i) => (
+              <span
+                key={i}
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: item.top,
+                  left: item.left,
+                  right: item.right as string | undefined,
+                  fontSize: "2.5rem",
+                  opacity: 0.3,
+                  animation: `float ${item.duration} ease-in-out ${item.delay} infinite alternate`,
+                  userSelect: "none",
+                  filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))",
+                }}
+              >
+                {item.emoji}
+              </span>
+            ))}
+          <div className="text-center lg:text-left space-y-8 animate-fade-in order-2 lg:order-1">
             <div className="inline-block mt-20">
               <span className="px-5 py-2.5 bg-gradient-primary text-white text-sm font-semibold rounded-full uppercase tracking-wider shadow-sm">
-                Premium FMCG Bakery
+                Premium Bakery Products
               </span>
             </div>
-
+           
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-cookie text-primary leading-tight">
               {slide?.title ?? defaultSlides[0].title}
             </h1>
@@ -127,12 +160,12 @@ export function HeroSection() {
                 </Button>
               </Link>
               <Button href={whatsappUrl} variant="outline" size="lg" className="w-full sm:w-auto">
-                Order / Become Distributor
+                Order Now
               </Button>
             </div>
           </div>
 
-          <div className="relative">
+          <div className="relative order-1 lg:order-2">
             <div className="overflow-hidden rounded-3xl aspect-[4/3] lg:aspect-square relative">
               {slides.map((s, index) => (
                 <Image
@@ -140,9 +173,8 @@ export function HeroSection() {
                   src={s.imageUrl || "/images/products/featuredProduct1.png"}
                   alt={s.imageAlt || s.title}
                   fill
-                  className={`object-contain transition-opacity duration-1000 ease-in-out ${
-                    index === currentSlide ? "opacity-100" : "opacity-0"
-                  }`}
+                  className={`object-contain transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"
+                    }`}
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   priority={index === 0}
                 />
@@ -154,11 +186,10 @@ export function HeroSection() {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentSlide
-                      ? "bg-white scale-125 shadow-lg"
-                      : "bg-white/50 hover:bg-white/80"
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide
+                    ? "bg-white scale-125 shadow-lg"
+                    : "bg-white/50 hover:bg-white/80"
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}

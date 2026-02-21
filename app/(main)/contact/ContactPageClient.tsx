@@ -25,7 +25,7 @@ export function ContactPageClient() {
 
   return (
     <div className="bg-bgLight min-h-screen">
-      <section className="pt-28 pb-16 md:pt-36 md:pb-20 bg-gradient-to-br from-bgLight via-white to-bgLight">
+      <section className="pt-16 pb-16 md:pt-20 md:pb-20 bg-gradient-to-br from-bgLight via-white to-bgLight">
         <Container>
           <div className="max-w-4xl mx-auto text-center">
             <span className="text-primary font-semibold uppercase tracking-wider text-sm md:text-base">

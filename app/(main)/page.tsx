@@ -4,9 +4,12 @@ import { CoreValues } from "@/components/sections/CoreValues";
 import { ProductCategories } from "@/components/sections/ProductCategories";
 import { ManufacturingProcess } from "@/components/sections/ManufacturingProcess";
 import { TrustSection } from "@/components/sections/TrustSection";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { AboutPreview } from "@/components/sections/AboutPreview";
+import { FAQSection } from "@/components/sections/FAQSection";
 import type { Metadata } from "next";
+import { FlashSaleSection } from "@/components/sections/FlashSaleSection";
 
 export const metadata: Metadata = {
   title: "Premium FMCG Manufacturer | Bakery & Confectionery - Dorney",
@@ -31,13 +34,16 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <FlashSaleSection />
+      <ProductCategories />
       <FeaturedProducts />
       <CoreValues />
-      <ProductCategories />
       <ManufacturingProcess />
       <TrustSection />
+      {/* <TestimonialsSection /> */}
       <CTASection />
-      <AboutPreview />
+      {/* <AboutPreview /> */}
+      <FAQSection />
     </>
   );
 }
