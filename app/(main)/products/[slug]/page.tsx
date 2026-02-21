@@ -2,23 +2,21 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
 import { ProductCard } from "@/components/ui/ProductCard";
-import { fetchProductBySlug, fetchProducts } from "@/lib/api";
+import { getProductBySlugFromDb, getProductsFromDb } from "@/lib/data-server";
 import {
   getProductBySlug,
   getProductsByCategory,
   getCategoryBySlug,
   getAbsoluteUrl,
 } from "@/lib/data";
-import { getWhatsAppUrl } from "@/lib/helpers";
 import { ProductDetailClient } from "./ProductDetailClient";
 import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const apiProducts = await fetchProducts();
+  const apiProducts = await getProductsFromDb();
   if (apiProducts?.length) {
     return apiProducts.map((p) => ({ slug: p.slug }));
   }
@@ -28,7 +26,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const apiProduct = await fetchProductBySlug(slug);
+  const apiProduct = await getProductBySlugFromDb(slug);
   const mockProduct = getProductBySlug(slug);
   const product = apiProduct || mockProduct;
   if (!product) return { title: "Product Not Found" };
@@ -103,7 +101,7 @@ function ProductJsonLd({
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const apiProduct = await fetchProductBySlug(slug);
+  const apiProduct = await getProductBySlugFromDb(slug);
   const mockProduct = getProductBySlug(slug);
   const product = apiProduct || mockProduct;
   if (!product) notFound();
@@ -126,8 +124,8 @@ export default async function ProductPage({ params }: Props) {
     categoryDisplay && categoryDisplay.charAt(0).toUpperCase() + categoryDisplay.slice(1);
 
   const relatedProducts = await (async () => {
-    const allProducts = await fetchProducts();
-    if (allProducts?.length) {
+    const allProducts = await getProductsFromDb();
+    if (allProducts !== null && allProducts !== undefined && allProducts.length > 0) {
       return allProducts.filter(
         (p) =>
           ((p.category as { slug?: string })?.slug === categorySlug ||
@@ -203,8 +201,13 @@ export default async function ProductPage({ params }: Props) {
                   <ProductCard
                     key={p.id}
                     product={{
-                      ...p,
+                      id: p.id,
+                      name: p.name,
+                      slug: p.slug,
                       category: (p as { category?: { slug?: string } }).category?.slug ?? categorySlug,
+                      shortDescription: (p as { shortDescription?: string }).shortDescription ?? undefined,
+                      price: (p as { price: number }).price,
+                      images: (p as { images: { url: string; alt: string }[] }).images ?? [],
                     }}
                   />
                 ))}

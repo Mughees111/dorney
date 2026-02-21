@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { ProductCard } from "@/components/ui/ProductCard";
-import { fetchProducts, fetchCategories } from "@/lib/api";
+import { getProductsFromDb, getCategoriesFromDb } from "@/lib/data-server";
 import {
   getCategoryBySlug,
   getProductsByCategory,
@@ -13,7 +13,7 @@ import type { Metadata } from "next";
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  const apiCategories = await fetchCategories();
+  const apiCategories = await getCategoriesFromDb();
   if (apiCategories?.length) {
     return apiCategories.map((c) => ({ slug: c.slug }));
   }
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const apiCategories = await fetchCategories();
+  const apiCategories = await getCategoriesFromDb();
   const apiCategory = apiCategories?.find((c) => c.slug === slug);
   const mockCategory = getCategoryBySlug(slug);
   const category = apiCategory || mockCategory;
@@ -56,8 +56,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
   const [apiProducts, apiCategories] = await Promise.all([
-    fetchProducts(),
-    fetchCategories(),
+    getProductsFromDb(),
+    getCategoriesFromDb(),
   ]);
 
   const apiCategory = apiCategories?.find((c) => c.slug === slug);
@@ -65,12 +65,13 @@ export default async function CategoryPage({ params }: Props) {
   const category = apiCategory || mockCategory;
   if (!category) notFound();
 
-  const categoryProducts = apiProducts?.length
-    ? apiProducts.filter((p) => {
-        const catSlug = (p.category as { slug?: string })?.slug;
-        return catSlug === slug || p.categoryId === (apiCategory?.id ?? "");
-      })
-    : getProductsByCategory(slug);
+  const categoryProducts =
+    apiProducts !== null && apiProducts !== undefined
+      ? apiProducts.filter((p) => {
+          const catSlug = (p.category as { slug?: string })?.slug;
+          return catSlug === slug || p.categoryId === (apiCategory?.id ?? "");
+        })
+      : getProductsByCategory(slug);
 
   const products = (categoryProducts ?? []).map((p) =>
     "category" in p && typeof (p as { category: unknown }).category === "object"

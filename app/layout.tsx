@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Cookie, Inter } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/shared/Header";
-import { Footer } from "@/components/shared/Footer";
-import { WhatsAppFloatingButton } from "@/components/ui/WhatsAppFloatingButton";
 import { CartProvider } from "@/context/CartContext";
 
 const poppins = Poppins({
@@ -71,12 +68,7 @@ export default function RootLayout({
       className={`${poppins.variable} ${cookie.variable} ${inter.variable}`}
     >
       <body className="min-h-screen flex flex-col font-inter bg-bgLight antialiased">
-        <CartProvider>
-          <Header />
-          <main className="flex-grow pt-20">{children}</main>
-          <Footer />
-          <WhatsAppFloatingButton />
-        </CartProvider>
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

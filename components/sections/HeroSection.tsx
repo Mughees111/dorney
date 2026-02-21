@@ -53,6 +53,8 @@ const defaultSlides: HeroSlide[] = [
   },
 ];
 
+const description = "Manufacturing premium sweet cakes, creamy cakes, cupcakes & biscuits with finest ingredients. Trusted partner for distributors & retailers across Pakistan – consistent quality & reliable delivery.";
+
 export function HeroSection() {
   const [slides, setSlides] = useState<HeroSlide[]>(defaultSlides);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -110,9 +112,7 @@ export function HeroSection() {
             </h2>
 
             <p className="text-lg text-neutral max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Manufacturing premium sweet cakes, creamy cakes, cupcakes & biscuits
-              with finest ingredients. Trusted partner for distributors &
-              retailers across Pakistan – consistent quality & reliable delivery.
+              {slide?.description ?? description}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start pt-4">

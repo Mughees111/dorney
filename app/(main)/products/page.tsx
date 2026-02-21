@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { ProductCard } from "@/components/ui/ProductCard";
-import { fetchProducts, fetchCategories } from "@/lib/api";
+import { getProductsFromDb, getCategoriesFromDb } from "@/lib/data-server";
 import { categories as mockCategories, products as mockProducts } from "@/lib/data";
 import type { Metadata } from "next";
 
@@ -26,36 +26,57 @@ export const metadata: Metadata = {
 
 export default async function ProductsPage() {
   const [apiProducts, apiCategories] = await Promise.all([
-    fetchProducts(),
-    fetchCategories(),
+    getProductsFromDb(),
+    getCategoriesFromDb(),
   ]);
 
-  const categories = apiCategories?.length
-    ? apiCategories.map((c) => ({
-        id: c.id,
-        name: c.name,
-        slug: c.slug,
-        description: c.description ?? "",
-        image: c.image || c.imageUrl || "",
-      }))
-    : mockCategories;
+  const categories =
+    apiCategories !== null && apiCategories !== undefined
+      ? apiCategories.map((c) => ({
+          id: c.id,
+          name: c.name,
+          slug: c.slug,
+          description: c.description ?? "",
+          image: c.image || c.imageUrl || "",
+        }))
+      : mockCategories.map((c) => ({
+          id: c.id,
+          name: c.name,
+          slug: c.slug,
+          description: c.description,
+          image: c.image,
+        }));
 
-  const products = apiProducts?.length
-    ? apiProducts.map((p) => ({
-        id: p.id,
-        name: p.name,
-        slug: p.slug,
-        category: p.category?.slug ?? p.categoryId,
-        shortDescription: p.shortDescription ?? "",
-        description: p.description ?? "",
-        price: p.price,
-        images: p.images,
-        metaTitle: p.metaTitle,
-        metaDescription: p.metaDescription,
-        keywords: p.keywords,
-        featured: p.featured,
-      }))
-    : mockProducts;
+  const products =
+    apiProducts !== null && apiProducts !== undefined
+      ? apiProducts.map((p) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          category: p.category?.slug ?? p.categoryId,
+          shortDescription: p.shortDescription ?? "",
+          description: p.description ?? "",
+          price: p.price,
+          images: p.images,
+          metaTitle: p.metaTitle,
+          metaDescription: p.metaDescription,
+          keywords: p.keywords,
+          featured: p.featured,
+        }))
+      : mockProducts.map((p) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          category: p.category,
+          shortDescription: p.shortDescription,
+          description: p.description,
+          price: p.price,
+          images: p.images,
+          metaTitle: p.metaTitle,
+          metaDescription: p.metaDescription,
+          keywords: p.keywords,
+          featured: p.featured,
+        }));
 
   const productsByCategory = categories
     .map((cat) => ({
@@ -110,21 +131,27 @@ export default async function ProductsPage() {
         </div>
 
         <div className="space-y-16 md:space-y-24">
-          {productsByCategory.map((cat) => (
-            <div key={cat.id}>
-              <h2 className="text-3xl sm:text-4xl font-cookie text-primary mb-6 text-center md:text-left">
-                {cat.name}
-              </h2>
-              <p className="text-neutral text-center md:text-left mb-8 max-w-2xl mx-auto md:mx-0">
-                {cat.description}
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {cat.products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+          {productsByCategory.length > 0 ? (
+            productsByCategory.map((cat) => (
+              <div key={cat.id}>
+                <h2 className="text-3xl sm:text-4xl font-cookie text-primary mb-6 text-center md:text-left">
+                  {cat.name}
+                </h2>
+                <p className="text-neutral text-center md:text-left mb-8 max-w-2xl mx-auto md:mx-0">
+                  {cat.description}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                  {cat.products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-neutral py-12">
+              No products found. Add products from the admin panel.
+            </p>
+          )}
         </div>
       </Container>
     </section>
