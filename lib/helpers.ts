@@ -12,7 +12,7 @@ export const constants = {
 /** Build WhatsApp order URL */
 export function getWhatsAppUrl(
   phone?: string,
-  message: string = "Hi! I'd like to order from Dorney 😊"
+  message: string = "Hi! I'd like to order from Dornay 😊"
 ): string {
   const p = phone || constants.phone;
   const cleanPhone = p.replace(/\D/g, "");

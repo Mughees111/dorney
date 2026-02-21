@@ -1,4 +1,4 @@
-# Dorney FMCG E-Commerce - Setup Instructions
+# Dornay FMCG E-Commerce - Setup Instructions
 
 ## 1. Environment Variables
 

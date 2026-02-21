@@ -8,17 +8,17 @@ import { categories as mockCategories, products as mockProducts } from "@/lib/da
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Products - Premium Cakes, Biscuits, Toffees | Dorney",
+  title: "All Products - Premium Cakes, Biscuits, Toffees | Dornay",
   description:
     "Explore our full range of FMCG products: cup cakes, toffees, lollipops, biscuits, and snacks. Premium quality for retailers across Pakistan.",
   keywords: [
-    "Dorney products",
+    "Dornay products",
     "FMCG Pakistan",
     "cakes biscuits toffees",
     "wholesale products",
   ],
   openGraph: {
-    title: "All Products | Dorney FMCG Pakistan",
+    title: "All Products | Dornay FMCG Pakistan",
     description:
       "Premium cakes, biscuits, toffees, lollipops, and snacks for retailers.",
   },

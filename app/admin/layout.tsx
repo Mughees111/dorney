@@ -56,7 +56,7 @@ export default function AdminLayout({
           <div className="flex justify-between h-16">
             <div className="flex items-center gap-8">
               <Link href="/admin" className="font-bold text-primary">
-                Dorney Admin
+                Dornay Admin
               </Link>
               <div className="flex gap-4">
                 <Link

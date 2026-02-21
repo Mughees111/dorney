@@ -12,7 +12,7 @@ import type { Metadata } from "next";
 import { FlashSaleSection } from "@/components/sections/FlashSaleSection";
 
 export const metadata: Metadata = {
-  title: "Premium FMCG Manufacturer | Bakery & Confectionery - Dorney",
+  title: "Premium FMCG Manufacturer | Bakery & Confectionery - Dornay",
   description:
     "Leading FMCG bakery and confectionery manufacturer in Pakistan. Quality cakes, cream cakes, and biscuits for retailers nationwide. Competitive wholesale prices and reliable delivery.",
   keywords: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "cream cakes supplier",
   ],
   openGraph: {
-    title: "Premium FMCG Manufacturer | Bakery & Confectionery - Dorney",
+    title: "Premium FMCG Manufacturer | Bakery & Confectionery - Dornay",
     description:
       "Leading FMCG bakery and confectionery manufacturer in Pakistan.",
   },

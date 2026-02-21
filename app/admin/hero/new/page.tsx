@@ -73,7 +73,7 @@ export default function NewHeroSlidePage() {
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               required
-              placeholder="e.g. Welcome to Dorney"
+              placeholder="e.g. Welcome to Dornay"
               className={inputClass}
             />
           </div>

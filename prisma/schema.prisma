@@ -1,4 +1,4 @@
-// Dorney FMCG Bakery - Supabase (PostgreSQL) Schema
+// Dornay FMCG Bakery - Supabase (PostgreSQL) Schema
 // Run: npx prisma db push (or migrate) after setting DATABASE_URL
 
 generator client {

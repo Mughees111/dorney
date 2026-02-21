@@ -49,7 +49,7 @@ export function Header() {
           );
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const whatsappUrl = getWhatsAppUrl(
@@ -70,20 +70,20 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-sm"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-sm"
+        }`}
     >
       <Container>
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center space-x-2">
-            <Image
+            <img src={"/images/dornyLogo.png"} alt="Dornay Logo" style={{width: "176px",}} />
+            {/* <Image
               src="/images/dornyLogo.png"
-              alt="Dorney Logo"
+              alt="Dornay Logo"
               width={96}
               height={64}
               className="w-24 h-16"
-            />
+            /> */}
           </Link>
 
           <nav className="hidden lg:flex items-center space-x-8 font-poppins">
@@ -93,11 +93,10 @@ export function Header() {
                   <>
                     <button
                       onClick={() => setIsProductsOpen(!isProductsOpen)}
-                      className={`flex items-center space-x-1 font-medium transition-colors ${
-                        pathname === link.path
+                      className={`flex items-center space-x-1 font-medium transition-colors ${pathname === link.path
                           ? "text-primary"
                           : "text-dark hover:text-primary"
-                      }`}
+                        }`}
                       aria-expanded={isProductsOpen}
                       aria-haspopup="true"
                     >
@@ -122,11 +121,10 @@ export function Header() {
                 ) : (
                   <Link
                     href={link.path}
-                    className={`font-medium transition-colors ${
-                      pathname === link.path
+                    className={`font-medium transition-colors ${pathname === link.path
                         ? "text-primary"
                         : "text-dark hover:text-primary"
-                    }`}
+                      }`}
                   >
                     {link.name}
                   </Link>
@@ -193,9 +191,8 @@ export function Header() {
                       >
                         <span>{link.name}</span>
                         <ChevronDown
-                          className={`w-4 h-4 transition-transform ${
-                            isProductsOpen ? "rotate-180" : ""
-                          }`}
+                          className={`w-4 h-4 transition-transform ${isProductsOpen ? "rotate-180" : ""
+                            }`}
                         />
                       </button>
                       {isProductsOpen && (
@@ -215,11 +212,10 @@ export function Header() {
                   ) : (
                     <Link
                       href={link.path}
-                      className={`block font-medium transition-colors ${
-                        pathname === link.path
+                      className={`block font-medium transition-colors ${pathname === link.path
                           ? "text-primary"
                           : "text-dark hover:text-primary"
-                      }`}
+                        }`}
                     >
                       {link.name}
                     </Link>

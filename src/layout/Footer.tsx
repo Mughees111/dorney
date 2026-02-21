@@ -14,12 +14,12 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               
-              <img src={logo} alt="Dorney Logo" className="w-18 h-16" />
+              <img src={logo} alt="Dornay Logo" className="w-18 h-16" />
               {/* <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">B</span>
               </div> */}
               {/* <div>
-                <div className="font-poppins font-bold text-xl">Dorney</div>
+                <div className="font-poppins font-bold text-xl">Dornay</div>
                 <div className="text-xs text-gray-400 -mt-1">Premium FMCG</div>
               </div> */}
             </div>
@@ -120,7 +120,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 py-6 text-center text-gray-400 text-sm">
-          <p>&copy; {currentYear} Dorney. All rights reserved.</p>
+          <p>&copy; {currentYear} Dornay. All rights reserved.</p>
         </div>
       </Container>
     </footer>

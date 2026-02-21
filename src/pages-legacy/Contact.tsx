@@ -39,7 +39,7 @@ export default function Contact() {
               Get in Touch
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-cookie text-dark mt-4 mb-6 leading-tight">
-              Contact Dorney
+              Contact Dornay
             </h1>
             <p className="text-lg sm:text-xl text-neutral leading-relaxed max-w-3xl mx-auto">
               Pakistan's Premier FMCG Manufacturer – Building a legacy of quality, trust, and excellence in bakery & confectionery
@@ -129,7 +129,7 @@ export default function Contact() {
             Contact Us
           </h2>
           <p className="text-lg text-neutral max-w-3xl mx-auto leading-relaxed">
-            Have questions or feedback? We’re here to help! Reach out to the Dorney team—we’d love to hear from you. Let’s stay connected and make every experience more flavorful together.
+            Have questions or feedback? We’re here to help! Reach out to the Dornay team—we’d love to hear from you. Let’s stay connected and make every experience more flavorful together.
           </p>
         </div>
 

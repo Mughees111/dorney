@@ -19,7 +19,7 @@ export default function CTASection() {
       <Container className="relative z-10">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-cookie text-white mb-6 leading-tight">
-            Ready to Partner with Dorney?
+            Ready to Partner with Dornay?
           </h2>
           <p className="text-lg md:text-xl text-white/90 mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed">
             Join hundreds of successful retailers across Pakistan who rely on our premium cakes, cream cakes, biscuits & confectionery. Enjoy consistent quality, competitive wholesale pricing, and reliable nationwide delivery.

@@ -88,7 +88,7 @@ export function CoreValues() {
               marginBottom: "16px",
             }}
           >
-            Why Dorney?
+            Why Dornay?
           </span>
           <h2
             style={{

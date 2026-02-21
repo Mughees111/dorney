@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
         <h1 className="text-2xl font-bold text-center text-primary mb-6">
-          Dorney Admin
+          Dornay Admin
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

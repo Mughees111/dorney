@@ -82,7 +82,7 @@ function ProductJsonLd({
     name: product.name,
     description: product.description,
     image: product.images.map((i) => getAbsoluteUrl(i.url)),
-    brand: { "@type": "Brand", name: "Dorney" },
+    brand: { "@type": "Brand", name: "Dornay" },
     category: categoryName ?? undefined,
     offers: {
       "@type": "Offer",

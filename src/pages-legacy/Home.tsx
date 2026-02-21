@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Premium FMCG Manufacturer | Bakery & Confectionery - Dorney"
+        title="Premium FMCG Manufacturer | Bakery & Confectionery - Dornay"
         description="Leading FMCG bakery and confectionery manufacturer in Pakistan. Quality cakes, cream cakes, and biscuits for retailers nationwide. Competitive wholesale prices and reliable delivery."
         keywords="FMCG manufacturer Pakistan, bakery products wholesale, confectionery supplier, cakes manufacturer, biscuits wholesale, cream cakes supplier"
       />

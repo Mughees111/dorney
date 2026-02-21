@@ -26,13 +26,13 @@ export const metadata: Metadata = {
   ),
   title: {
     default:
-      "Dorney – Premium Bakery & Confectionery Manufacturer | Pakistan",
-    template: "%s | Dorney",
+      "Dornay – Premium Bakery & Confectionery Manufacturer | Pakistan",
+    template: "%s | Dornay",
   },
   description:
-    "Dorney – Pakistan's trusted FMCG manufacturer of premium cakes, cream cakes, biscuits and confectionery. Wholesale quality products with nationwide delivery for retailers and distributors.",
+    "Dornay – Pakistan's trusted FMCG manufacturer of premium cakes, cream cakes, biscuits and confectionery. Wholesale quality products with nationwide delivery for retailers and distributors.",
   keywords: [
-    "Dorney",
+    "Dornay",
     "bakery manufacturer Pakistan",
     "confectionery FMCG",
     "premium cakes Pakistan",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
-    siteName: "Dorney",
+    siteName: "Dornay",
     locale: "en_PK",
     images: [{ url: "/Meta.png", width: 1200, height: 630 }],
   },

@@ -10,11 +10,11 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Dorney - Pakistan's Trusted Bakery & Confectionery Manufacturer",
+  title: "About Dornay - Pakistan's Trusted Bakery & Confectionery Manufacturer",
   description:
-    "Discover Dorney's story: Over 10+ years crafting premium cakes, cream cakes, biscuits with unmatched quality, hygiene, and nationwide reach for retailers across Pakistan.",
+    "Discover Dornay's story: Over 10+ years crafting premium cakes, cream cakes, biscuits with unmatched quality, hygiene, and nationwide reach for retailers across Pakistan.",
   keywords: [
-    "Dorney about",
+    "Dornay about",
     "bakery manufacturer Pakistan",
     "confectionery FMCG",
     "premium cakes Pakistan",
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
     "food manufacturing Lahore",
   ],
   openGraph: {
-    title: "About Dorney - Pakistan's Trusted Bakery Manufacturer",
+    title: "About Dornay - Pakistan's Trusted Bakery Manufacturer",
     description:
-      "Discover Dorney's story: Over 10+ years crafting premium cakes, cream cakes, biscuits with unmatched quality and nationwide reach.",
+      "Discover Dornay's story: Over 10+ years crafting premium cakes, cream cakes, biscuits with unmatched quality and nationwide reach.",
   },
 };
 
@@ -58,7 +58,7 @@ export default function AboutPage() {
         <Container>
           <div className="max-w-5xl mx-auto text-center">
             <span className="text-primary font-semibold uppercase tracking-wider text-sm md:text-base">
-              Welcome to Dorney
+              Welcome to Dornay
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-cookie text-primary mt-4 mb-6 leading-tight">
               Crafting Sweet Moments Since 2010
@@ -76,7 +76,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="space-y-6">
               <SectionTitle subtitle="Our Journey" centered={false}>
-                The Dorney Legacy
+                The Dornay Legacy
               </SectionTitle>
               <div className="space-y-5 text-lg text-neutral leading-relaxed font-poppins">
                 <p>
@@ -96,7 +96,7 @@ export default function AboutPage() {
             <div className="relative">
               <Image
                 src="https://images.pexels.com/photos/1449773/pexels-photo-1449773.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                alt="Dorney production facility"
+                alt="Dornay production facility"
                 width={1200}
                 height={800}
                 className="rounded-3xl shadow-2xl w-full object-cover"
@@ -114,7 +114,7 @@ export default function AboutPage() {
               <div className="relative">
                 <Image
                   src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Hamza Sheikh, CEO Dorney"
+                  alt="Hamza Sheikh, CEO Dornay"
                   width={800}
                   height={800}
                   className="rounded-3xl shadow-2xl w-full object-cover aspect-square"
@@ -153,7 +153,7 @@ export default function AboutPage() {
                 </div>
                 <div>
                   <p className="font-bold text-dark text-xl">Hamza Sheikh</p>
-                  <p className="text-neutral">Founder & CEO, Dorney</p>
+                  <p className="text-neutral">Founder & CEO, Dornay</p>
                 </div>
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function AboutPage() {
 
       <section className="py-20 bg-white">
         <Container>
-          <SectionTitle subtitle="Meet the People Behind Dorney">
+          <SectionTitle subtitle="Meet the People Behind Dornay">
             Our Leadership Team
           </SectionTitle>
 
@@ -236,7 +236,7 @@ export default function AboutPage() {
             <div className="order-2 lg:order-1 relative">
               <Image
                 src="https://images.pexels.com/photos/4393665/pexels-photo-4393665.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                alt="Dorney distribution fleet"
+                alt="Dornay distribution fleet"
                 width={1200}
                 height={800}
                 className="rounded-3xl shadow-2xl w-full object-cover"
@@ -277,7 +277,7 @@ export default function AboutPage() {
         <Container>
           <div className="text-center max-w-4xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-cookie mb-6">
-              Partner with Dorney Today
+              Partner with Dornay Today
             </h2>
             <p className="text-xl leading-relaxed mb-8">
               Quality you can trust. Freshness you can taste. Value you deserve.

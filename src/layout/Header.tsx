@@ -41,11 +41,11 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           <Link to="/" className="flex items-center space-x-2">
             {/* <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center"> */}
-              <img src={logo} alt="Dorney Logo" className="w-18 h-16" />
+              <img src={logo} alt="Dornay Logo" className="w-18 h-16" />
 
             {/* </div> */}
             {/* <div> */}
-              {/* <div className="font-poppins font-bold text-xl text-dark">Dorney</div> */}
+              {/* <div className="font-poppins font-bold text-xl text-dark">Dornay</div> */}
               {/* <div className="text-xs text-neutral -mt-1">Premium FMCG</div> */}
             {/* </div> */}
           </Link>

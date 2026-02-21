@@ -18,7 +18,7 @@ export default function WhatsAppFloatingButton() {
 
     const openWhatsApp = useCallback(() => {
         const phone = constants.phone.replace(/\D/g, "");
-        const text = "Hi! I'd like to order from Dorney 😊";
+        const text = "Hi! I'd like to order from Dornay 😊";
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
         window.open(url, "_blank", "noopener,noreferrer");
     }, []);
@@ -47,20 +47,6 @@ export default function WhatsAppFloatingButton() {
                 >
                     <WhatsappSvgIcon />
                 </div>
-
-                {/* Fancy text label - slides in from LEFT on hover only */}
-                <div className="absolute top-1/2 -translate-y-1/2 right-full mr-4 
-                                opacity-100 group-hover:opacity-100 
-                                -translate-x-0 group-hover:translate-x-0
-                                transition-all duration-300 ease-out pointer-events-none">
-                    <div className="bg-white text-[#128C7E] font-semibold text-[15px] 
-                                    px-6 py-3.5 rounded-3xl shadow-2xl shadow-green-400/30 
-                                    border border-green-100 flex items-center gap-2 whitespace-nowrap">
-                        We'd love to talk! 
-                        <span className="text-lg">💬</span>
-                    </div>
-                </div>
-
             </div>
         </div>
     );

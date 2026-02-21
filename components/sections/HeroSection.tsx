@@ -93,7 +93,7 @@ export function HeroSection() {
 
   const slide = slides[currentSlide];
   const imageSrc = slide?.imageUrl || "/images/products/featuredProduct1.png";
-  const imageAlt = slide?.imageAlt || "Dorney bakery products";
+  const imageAlt = slide?.imageAlt || "Dornay bakery products";
 
   return (
     <section className="relative min-h-screen flex  bg-bgLight overflow-hidden  "  >
@@ -153,13 +153,13 @@ export function HeroSection() {
                 <Button
                   variant="primary"
                   size="lg"
-                  className="w-full sm:w-auto group"
+                  className="w-full sm:w-auto group h-11 "
                 >
                   <span>Explore Products</span>
                   <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
-              <Button href={whatsappUrl} variant="outline" size="lg" className="w-full sm:w-auto mb-3">
+              <Button href={whatsappUrl} variant="outline" size="lg" className="w-full sm:w-auto mb-3 group h-11">
                 Order Now
               </Button>
             </div>
