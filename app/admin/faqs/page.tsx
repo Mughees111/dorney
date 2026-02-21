@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Trash2 } from "lucide-react";
 
 interface FAQ {
   id: string;
@@ -14,6 +15,7 @@ interface FAQ {
 export default function AdminFAQsPage() {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/faqs", { credentials: "include" })
@@ -22,6 +24,26 @@ export default function AdminFAQsPage() {
       .catch(() => setFaqs([]))
       .finally(() => setLoading(false));
   }, []);
+
+  const handleDelete = async (id: string, question: string) => {
+    if (!confirm(`Delete "${question}"? This action cannot be undone.`)) return;
+    setDeleting(id);
+    try {
+      const res = await fetch(`/api/faqs/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        setFaqs((prev) => prev.filter((f) => f.id !== id));
+      } else {
+        alert("Failed to delete FAQ");
+      }
+    } catch {
+      alert("Failed to delete FAQ");
+    } finally {
+      setDeleting(null);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
 
@@ -55,9 +77,19 @@ export default function AdminFAQsPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{f.category}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{f.isActive ? "Yes" : "No"}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <Link href={`/admin/faqs/${f.id}`} className="text-primary hover:underline">
-                    Edit
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <Link href={`/admin/faqs/${f.id}`} className="text-primary hover:underline">
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(f.id, f.question)}
+                      disabled={deleting === f.id}
+                      className="text-red-600 hover:text-red-800 disabled:opacity-50"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

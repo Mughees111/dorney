@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Trash2 } from "lucide-react";
 
 interface Category {
   id: string;
@@ -13,6 +14,7 @@ interface Category {
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/categories", { credentials: "include" })
@@ -21,6 +23,26 @@ export default function AdminCategoriesPage() {
       .catch(() => setCategories([]))
       .finally(() => setLoading(false));
   }, []);
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`Are you sure? Deleting this category will also delete all their products. This action cannot be undone.`)) return;
+    setDeleting(id);
+    try {
+      const res = await fetch(`/api/categories/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (res.ok) {
+        setCategories((prev) => prev.filter((c) => c.id !== id));
+      } else {
+        alert("Failed to delete category");
+      }
+    } catch {
+      alert("Failed to delete category");
+    } finally {
+      setDeleting(null);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
 
@@ -50,9 +72,19 @@ export default function AdminCategoriesPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{c.name}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{c.slug}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <Link href={`/admin/categories/${c.id}`} className="text-primary hover:underline">
-                    Edit
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <Link href={`/admin/categories/${c.id}`} className="text-primary hover:underline">
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(c.id, c.name)}
+                      disabled={deleting === c.id}
+                      className="text-red-600 hover:text-red-800 disabled:opacity-50"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

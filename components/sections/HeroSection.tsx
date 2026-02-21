@@ -96,7 +96,7 @@ export function HeroSection() {
   const imageAlt = slide?.imageAlt || "Dorney bakery products";
 
   return (
-    <section className="relative min-h-screen flex  bg-bgLight overflow-hidden"  >
+    <section className="relative min-h-screen flex  bg-bgLight overflow-hidden  "  >
 
       <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-20 left-10 w-80 h-80 bg-primary/30 rounded-full blur-3xl" />
@@ -159,7 +159,7 @@ export function HeroSection() {
                   <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
               </Link>
-              <Button href={whatsappUrl} variant="outline" size="lg" className="w-full sm:w-auto">
+              <Button href={whatsappUrl} variant="outline" size="lg" className="w-full sm:w-auto mb-3">
                 Order Now
               </Button>
             </div>

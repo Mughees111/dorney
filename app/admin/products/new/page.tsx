@@ -52,7 +52,7 @@ export default function NewProductPage() {
     setForm((f) => ({
       ...f,
       name,
-      slug: f.slug || newSlug,
+      slug: newSlug,
     }));
   };
 

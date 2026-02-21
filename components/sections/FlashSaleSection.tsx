@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Zap, Tag, Flame, ShoppingCart, Check } from "lucide-react";
+import { Zap, Tag, Flame, ShoppingCart, Check, Plus, Minus } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { useCart } from "@/context/CartContext";
 import { constants } from "@/src/configs/constants";
@@ -78,7 +78,7 @@ export function FlashSaleSection() {
   const [deals, setDeals] = useState<FlashDeal[]>([]);
   const [loading, setLoading] = useState(true);
   const [addedIds, setAddedIds] = useState<Set<string>>(new Set());
-  const { addItem } = useCart();
+  const { addItem, updateQuantity, items } = useCart();
 
   useEffect(() => {
     fetch("/api/flash-deals", {
@@ -118,9 +118,28 @@ export function FlashSaleSection() {
     }, 2000);
   };
 
+  const getCartQuantity = (dealId: string) => {
+    const cartItem = items.find(item => item.id === `deal-${dealId}`);
+    return cartItem?.quantity || 0;
+  };
+
+  const handleIncreaseQuantity = (deal: FlashDeal) => {
+    const cartItem = items.find(item => item.id === `deal-${deal.id}`);
+    if (cartItem) {
+      updateQuantity(`deal-${deal.id}`, cartItem.quantity + 1);
+    }
+  };
+
+  const handleDecreaseQuantity = (deal: FlashDeal) => {
+    const cartItem = items.find(item => item.id === `deal-${deal.id}`);
+    if (cartItem && cartItem.quantity > 1) {
+      updateQuantity(`deal-${deal.id}`, cartItem.quantity - 1);
+    }
+  };
+
   if (loading) {
     return (
-      <section className="py-20" style={{ background: "#FFF8F0" }}>
+      <section className="py-20" style={{  background: "#FFF8F0" }}>
         <Container>
           <div className="animate-pulse">
             <div className="h-8 w-48 bg-gray-200 rounded mb-4" />
@@ -140,7 +159,7 @@ export function FlashSaleSection() {
 
   return (
     <section
-      className="py-20 relative overflow-hidden"
+      className="py-20 relative overflow-hidden md:mt-0 "
       style={{ background: "#FFF8F0" }}
     >
       <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
@@ -348,43 +367,68 @@ export function FlashSaleSection() {
                   </span>
                 </div>
 
-                <button
-                  onClick={() => handleAddToCart(deal)}
-                  style={{
-                    width: "100%",
-                    background: isAdded ? "#22c55e" : accentColor,
-                    color: "white",
-                    fontWeight: 700,
-                    fontSize: "0.9rem",
-                    padding: "12px",
-                    borderRadius: "12px",
-                    border: "none",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "8px",
-                    transition: "all 0.2s",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isAdded) e.currentTarget.style.opacity = "0.85";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = "1";
-                  }}
-                >
-                  {isAdded ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      Added to Cart
-                    </>
+                {(() => {
+                  const quantity = getCartQuantity(deal.id);
+                  return quantity > 0 ? (
+                    <div className="flex items-center justify-center gap-3">
+                      <button
+                        onClick={() => handleDecreaseQuantity(deal)}
+                        className="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                        aria-label="Decrease quantity"
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="font-bold text-lg min-w-[2rem] text-center">
+                        {quantity}
+                      </span>
+                      <button
+                        onClick={() => handleIncreaseQuantity(deal)}
+                        className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center hover:bg-green-600 transition-colors"
+                        aria-label="Increase quantity"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
                   ) : (
-                    <>
-                      <ShoppingCart className="w-4 h-4" />
-                      Add to Cart
-                    </>
-                  )}
-                </button>
+                    <button
+                      onClick={() => handleAddToCart(deal)}
+                      style={{
+                        width: "100%",
+                        background: isAdded ? "#22c55e" : accentColor,
+                        color: "white",
+                        fontWeight: 700,
+                        fontSize: "0.9rem",
+                        padding: "12px",
+                        borderRadius: "12px",
+                        border: "none",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "8px",
+                        transition: "all 0.2s",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isAdded) e.currentTarget.style.opacity = "0.85";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.opacity = "1";
+                      }}
+                    >
+                      {isAdded ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Added to Cart
+                        </>
+                      ) : (
+                        <>
+                          <ShoppingCart className="w-4 h-4" />
+                          Add to Cart
+                        </>
+                      )}
+                    </button>
+                  );
+                })()}
               </div>
             );
           })}
