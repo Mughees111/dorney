@@ -15,9 +15,10 @@ const locations = [
 ];
 
 const teamContacts = [
-  { name: "Hamza Sheikh", role: "CEO", phone: "+92 300 1234567" },
-  { name: "Muneeb Butt", role: "Sales & Distribution Manager", phone: "+92 321 9876543" },
-  { name: "Bilal Ahmed", role: "Production Head", phone: "+92 333 4567890" },
+  { name: "Mr Khalid sheikh", role: "CEO", phone: "" },
+  { name: "Mr Usman sheikh", role: "", phone: "" },
+  { name: "Ch Rashid hameed shab", role: "", phone: "" },
+  { name: "Mr Hamza sheikh", role: "Administration Director", phone: "" },
 ];
 
 export function ContactPageClient() {

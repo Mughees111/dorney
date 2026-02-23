@@ -31,24 +31,30 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const teamMembers = [
     {
-      name: "Hamza Sheikh",
-      role: "Founder & CEO",
-      img: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?w=800",
-    },
-    {
-      name: "Muneeb Butt",
-      role: "Head of Quality & R&D",
+      name: "Mr Khalid Sheikh",
+      role: "CEO",
       img: "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?w=800",
     },
     {
-      name: "Bilal Ahmed",
-      role: "Operations Director",
+      name: "Hamza Sheikh",
+      role: "Administration Director",
+      img: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?w=800",
+    },
+
+    {
+      name: "Mr Nazim Sheikh",
+      role: "",
       img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800",
     },
     {
-      name: "Sara Malik",
-      role: "Sales & Distribution Lead",
-      img: "https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?w=800",
+      name: "Mr Usman Sheikh",
+      role: "",
+      img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800",
+    },
+    {
+      name: "Ch Rashid Hameed Shab",
+      role: "",
+      img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800",
     },
   ];
 

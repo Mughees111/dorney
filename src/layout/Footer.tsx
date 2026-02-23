@@ -13,7 +13,7 @@ export default function Footer() {
         <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              
+
               <img src={logo} alt="Dornay Logo" className="w-18 h-16" />
               {/* <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">B</span>
@@ -100,7 +100,7 @@ export default function Footer() {
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                 <span className="text-gray-400">
-                  Industrial Area, Karachi, Pakistan
+                  Muridke Sheikhupura Road
                 </span>
               </li>
               <li className="flex items-center space-x-3">
