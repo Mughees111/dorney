@@ -12,6 +12,9 @@ import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// Always fetch fresh data so admin updates show on live immediately
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const apiCategories = await getCategoriesFromDb();
   if (apiCategories?.length) {

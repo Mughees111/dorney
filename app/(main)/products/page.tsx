@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Always fetch fresh product/category data so admin updates show on live immediately
+export const dynamic = "force-dynamic";
+
 export default async function ProductsPage() {
   const [apiProducts, apiCategories] = await Promise.all([
     getProductsFromDb(),
