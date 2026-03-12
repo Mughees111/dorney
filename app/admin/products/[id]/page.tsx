@@ -40,6 +40,7 @@ export default function EditProductPage() {
     price: "",
     featured: false,
     image: "",
+    imagePublicId: "",
     imageAlt: "",
     metaTitle: "",
     metaDescription: "",
@@ -63,6 +64,7 @@ export default function EditProductPage() {
           price: String(product.price ?? ""),
           featured: product.featured ?? false,
           image: product.image ?? "",
+          imagePublicId: product.imagePublicId ?? "",
           imageAlt: product.imageAlt ?? "",
           metaTitle: product.metaTitle ?? "",
           metaDescription: product.metaDescription ?? "",
@@ -105,6 +107,7 @@ export default function EditProductPage() {
           price,
           featured: form.featured,
           image: form.image || undefined,
+          imagePublicId: form.imagePublicId || undefined,
           imageAlt: form.imageAlt || undefined,
           metaTitle: form.metaTitle || undefined,
           metaDescription: form.metaDescription || undefined,
@@ -121,10 +124,11 @@ export default function EditProductPage() {
     }
   };
 
-  const addImage = (url: string) => {
+  const addImage = (url: string, publicId?: string) => {
     setForm((f) => ({
       ...f,
       image: url,
+      imagePublicId: publicId || "",
     }));
   };
 

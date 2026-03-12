@@ -15,6 +15,7 @@ export interface ApiProduct {
   description?: string | null;
   price: number;
   featured: boolean;
+   isActive?: boolean;
   image?: string | null;
   imageAlt?: string | null;
   metaTitle?: string | null;

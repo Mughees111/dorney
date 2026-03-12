@@ -9,6 +9,7 @@ interface Product {
   name: string;
   slug: string;
   price: number;
+  isActive?: boolean;
   category?: { name: string };
 }
 
@@ -17,6 +18,7 @@ export default function AdminProductsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [toggling, setToggling] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/products", { credentials: "include" })
@@ -54,6 +56,30 @@ export default function AdminProductsPage() {
     }
   };
 
+  const handleToggleActive = async (id: string, current?: boolean) => {
+    const next = !current;
+    setToggling(id);
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ isActive: next }),
+      });
+      if (!res.ok) {
+        alert("Failed to update status");
+        return;
+      }
+      setProducts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, isActive: next } : p))
+      );
+    } catch {
+      alert("Failed to update status");
+    } finally {
+      setToggling(null);
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
@@ -78,45 +104,62 @@ export default function AdminProductsPage() {
         />
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slug</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
-              <th className="px-6 py-3"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {filteredProducts.map((p) => (
-              <tr key={p.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{p.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{p.slug}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Rs. {p.price}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                  {(p.category as { name?: string })?.name ?? "-"}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <div className="flex items-center gap-3">
-                    <Link href={`/admin/products/${p.id}`} className="text-primary hover:underline">
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(p.id, p.name)}
-                      disabled={deleting === p.id}
-                      className="text-red-600 hover:text-red-800 disabled:opacity-50"
-                      title="Delete"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </td>
+      <div className="bg-white rounded-lg shadow">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slug</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                <th className="px-6 py-3"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {filteredProducts.map((p) => (
+                <tr key={p.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{p.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{p.slug}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Rs. {p.price}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleActive(p.id, p.isActive)}
+                      disabled={toggling === p.id}
+                      className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${
+                        p.isActive !== false
+                          ? "bg-green-50 text-green-700 border-green-200"
+                          : "bg-gray-100 text-gray-600 border-gray-200"
+                      } disabled:opacity-50`}
+                    >
+                      {p.isActive !== false ? "Active" : "Inactive"}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {(p.category as { name?: string })?.name ?? "-"}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <div className="flex items-center gap-3">
+                      <Link href={`/admin/products/${p.id}`} className="text-primary hover:underline">
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(p.id, p.name)}
+                        disabled={deleting === p.id}
+                        className="text-red-600 hover:text-red-800 disabled:opacity-50"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {filteredProducts.length === 0 && (
           <p className="p-8 text-center text-gray-500">
             {searchTerm ? "No products match your search." : "No products yet. Add one to get started."}

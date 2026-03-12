@@ -9,6 +9,7 @@ import type { ApiProduct, ApiCategory } from "@/lib/api";
 export async function getProductsFromDb(): Promise<ApiProduct[] | null> {
   try {
     const products = await prisma.product.findMany({
+      where: { isActive: true },
       include: {
         category: true,
       },
@@ -66,8 +67,8 @@ export async function getProductBySlugFromDb(
   slug: string
 ): Promise<ApiProduct | null> {
   try {
-    const product = await prisma.product.findUnique({
-      where: { slug },
+    const product = await prisma.product.findFirst({
+      where: { slug, isActive: true },
       include: { category: true },
     });
     if (!product) return null;

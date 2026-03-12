@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 
 interface CloudinaryUploadProps {
-  onUpload: (url: string) => void;
+  onUpload: (url: string, publicId?: string) => void;
   onUploadingChange?: (uploading: boolean) => void;
   folder?: string;
   disabled?: boolean;
@@ -48,7 +48,7 @@ export function CloudinaryUpload({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Upload failed");
-      onUpload(data.url);
+      onUpload(data.url, data.publicId);
       if (inputRef.current) inputRef.current.value = "";
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed");

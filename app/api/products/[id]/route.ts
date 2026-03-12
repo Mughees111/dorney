@@ -8,6 +8,7 @@ import { prisma } from "@/lib/db";
 import { getAdminFromRequest } from "@/lib/auth";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { deleteImage } from "@/lib/cloudinary";
 
 const updateProductSchema = z.object({
   name: z.string().min(1).optional(),
@@ -17,6 +18,7 @@ const updateProductSchema = z.object({
   description: z.string().optional(),
   price: z.number().positive().optional(),
   featured: z.boolean().optional(),
+  isActive: z.boolean().optional(),
   image: z.string().optional(),
   imageAlt: z.string().optional(),
   metaTitle: z.string().optional(),
@@ -59,24 +61,33 @@ export async function PUT(
 
   const { id } = await params;
   try {
+    const existing = await prisma.product.findUnique({ where: { id } });
     const body = await req.json();
     const data = updateProductSchema.parse(body);
+    const updateData: Record<string, unknown> = {};
+    if (data.name) updateData.name = data.name;
+    if (data.slug) updateData.slug = data.slug;
+    if (data.categoryId) updateData.categoryId = data.categoryId;
+    if (data.shortDescription !== undefined) updateData.shortDescription = data.shortDescription;
+    if (data.description !== undefined) updateData.description = data.description;
+    if (data.price !== undefined) updateData.price = data.price;
+    if (data.featured !== undefined) updateData.featured = data.featured;
+    if (data.isActive !== undefined) updateData.isActive = data.isActive;
+    if (data.image !== undefined) {
+      if (existing?.imagePublicId && data.image !== existing.image) {
+        await deleteImage(existing.imagePublicId);
+        updateData.imagePublicId = null;
+      }
+      updateData.image = data.image;
+    }
+    if (data.imageAlt !== undefined) updateData.imageAlt = data.imageAlt;
+    if (data.metaTitle !== undefined) updateData.metaTitle = data.metaTitle;
+    if (data.metaDescription !== undefined) updateData.metaDescription = data.metaDescription;
+    if (data.keywords) updateData.keywords = data.keywords as object;
+
     const product = await prisma.product.update({
       where: { id },
-      data: {
-        ...(data.name && { name: data.name }),
-        ...(data.slug && { slug: data.slug }),
-        ...(data.categoryId && { categoryId: data.categoryId }),
-        ...(data.shortDescription !== undefined && { shortDescription: data.shortDescription }),
-        ...(data.description !== undefined && { description: data.description }),
-        ...(data.price !== undefined && { price: data.price }),
-        ...(data.featured !== undefined && { featured: data.featured }),
-        ...(data.image !== undefined && { image: data.image }),
-        ...(data.imageAlt !== undefined && { imageAlt: data.imageAlt }),
-        ...(data.metaTitle !== undefined && { metaTitle: data.metaTitle }),
-        ...(data.metaDescription !== undefined && { metaDescription: data.metaDescription }),
-        ...(data.keywords && { keywords: data.keywords as object }),
-      },
+      data: updateData,
       include: { category: true },
     });
     // Revalidate the product page and products listing
@@ -104,6 +115,10 @@ export async function DELETE(
 
   const { id } = await params;
   try {
+    const existing = await prisma.product.findUnique({ where: { id } });
+    if (existing?.imagePublicId) {
+      await deleteImage(existing.imagePublicId);
+    }
     await prisma.product.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch (e) {

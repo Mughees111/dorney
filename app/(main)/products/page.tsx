@@ -33,52 +33,54 @@ export default async function ProductsPage() {
   const categories =
     apiCategories !== null && apiCategories !== undefined
       ? apiCategories.map((c) => ({
-          id: c.id,
-          name: c.name,
-          slug: c.slug,
-          description: c.description ?? "",
-          image: c.image || c.imageUrl || "",
-        }))
-      : mockCategories.map((c) => ({
-          id: c.id,
-          name: c.name,
-          slug: c.slug,
-          description: c.description,
-          image: c.image,
-        }));
+        id: c.id,
+        name: c.name,
+        slug: c.slug,
+        description: c.description ?? "",
+        image: c.image || c.imageUrl || "",
+      }))
+      : []
+  // mockCategories.map((c) => ({
+  //     id: c.id,
+  //     name: c.name,
+  //     slug: c.slug,
+  //     description: c.description,
+  //     image: c.image,
+  //   }));
 
   const products =
     apiProducts !== null && apiProducts !== undefined
       ? apiProducts.map((p) => ({
-          id: p.id,
-          name: p.name,
-          slug: p.slug,
-          category: p.category?.slug ?? p.categoryId,
-          shortDescription: p.shortDescription ?? "",
-          description: p.description ?? "",
-          price: p.price,
-          image: p.image,
-          imageAlt: p.imageAlt,
-          metaTitle: p.metaTitle,
-          metaDescription: p.metaDescription,
-          keywords: p.keywords,
-          featured: p.featured,
-        }))
-      : mockProducts.map((p) => ({
-          id: p.id,
-          name: p.name,
-          slug: p.slug,
-          category: p.category,
-          shortDescription: p.shortDescription,
-          description: p.description,
-          price: p.price,
-          image: (p as { image?: string }).image,
-          imageAlt: (p as { imageAlt?: string }).imageAlt,
-          metaTitle: p.metaTitle,
-          metaDescription: p.metaDescription,
-          keywords: p.keywords,
-          featured: p.featured,
-        }));
+        id: p.id,
+        name: p.name,
+        slug: p.slug,
+        category: p.category?.slug ?? p.categoryId,
+        shortDescription: p.shortDescription ?? "",
+        description: p.description ?? "",
+        price: p.price,
+        image: p.image,
+        imageAlt: p.imageAlt,
+        metaTitle: p.metaTitle,
+        metaDescription: p.metaDescription,
+        keywords: p.keywords,
+        featured: p.featured,
+      }))
+      : []
+  // mockProducts.map((p) => ({
+  //     id: p.id,
+  //     name: p.name,
+  //     slug: p.slug,
+  //     category: p.category,
+  //     shortDescription: p.shortDescription,
+  //     description: p.description,
+  //     price: p.price,
+  //     image: (p as { image?: string }).image,
+  //     imageAlt: (p as { imageAlt?: string }).imageAlt,
+  //     metaTitle: p.metaTitle,
+  //     metaDescription: p.metaDescription,
+  //     keywords: p.keywords,
+  //     featured: p.featured,
+  //   }));
 
   const productsByCategory = categories
     .map((cat) => ({

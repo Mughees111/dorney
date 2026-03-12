@@ -17,6 +17,8 @@ model Category {
   description     String?
   imageUrl        String?   @map("image_url")
   imageAlt        String?   @map("image_alt")
+  imagePublicId   String?   @map("image_public_id")
+  isActive        Boolean   @default(true) @map("is_active")
   metaTitle       String?   @map("meta_title")
   metaDescription String?   @map("meta_description")
   keywords        Json?     // JSON array of keywords
@@ -36,8 +38,10 @@ model Product {
   description     String?
   price           Decimal        @db.Decimal(10, 2)
   featured        Boolean        @default(false)
+  isActive        Boolean        @default(true) @map("is_active")
   image           String?        // Product image URL
   imageAlt        String?        @map("image_alt")
+  imagePublicId   String?        @map("image_public_id")
   metaTitle       String?        @map("meta_title")
   metaDescription String?        @map("meta_description")
   keywords        Json?          // JSON array

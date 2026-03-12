@@ -23,6 +23,7 @@ export default function NewCategoryPage() {
     slug: "",
     description: "",
     imageUrl: "",
+    imagePublicId: "",
     imageAlt: "",
     metaTitle: "",
     metaDescription: "",
@@ -53,6 +54,7 @@ export default function NewCategoryPage() {
           slug: form.slug || slugFromName(form.name),
           description: form.description || undefined,
           imageUrl: form.imageUrl || undefined,
+          imagePublicId: form.imagePublicId || undefined,
           imageAlt: form.imageAlt || undefined,
           metaTitle: form.metaTitle || undefined,
           metaDescription: form.metaDescription || undefined,
@@ -117,7 +119,9 @@ export default function NewCategoryPage() {
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Image</label>
             <CloudinaryUpload
-              onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+              onUpload={(url, publicId) =>
+                setForm((f) => ({ ...f, imageUrl: url, imagePublicId: publicId || "" }))
+              }
               onUploadingChange={setImageUploading}
               folder="dorney/categories"
             />

@@ -28,6 +28,7 @@ export default function EditCategoryPage() {
     slug: "",
     description: "",
     imageUrl: "",
+    imagePublicId: "",
     imageAlt: "",
     metaTitle: "",
     metaDescription: "",
@@ -45,6 +46,7 @@ export default function EditCategoryPage() {
             slug: cat.slug ?? "",
             description: cat.description ?? "",
             imageUrl: cat.imageUrl ?? cat.image ?? "",
+            imagePublicId: cat.imagePublicId ?? "",
             imageAlt: cat.imageAlt ?? "",
             metaTitle: cat.metaTitle ?? "",
             metaDescription: cat.metaDescription ?? "",
@@ -76,6 +78,7 @@ export default function EditCategoryPage() {
           slug: form.slug || slugFromName(form.name),
           description: form.description || undefined,
           imageUrl: form.imageUrl || null,
+          imagePublicId: form.imagePublicId || undefined,
           imageAlt: form.imageAlt || undefined,
           metaTitle: form.metaTitle || undefined,
           metaDescription: form.metaDescription || undefined,
@@ -129,7 +132,7 @@ export default function EditCategoryPage() {
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Image</label>
             <CloudinaryUpload
-              onUpload={(url) => setForm((f) => ({ ...f, imageUrl: url }))}
+              onUpload={(url, publicId) => setForm((f) => ({ ...f, imageUrl: url, imagePublicId: publicId || "" }))}
               onUploadingChange={setImageUploading}
               folder="dorney/categories"
             />

@@ -60,8 +60,9 @@ export default async function CategoryPage({ params }: Props) {
     getCategoriesFromDb(),
   ]);
 
+  console.log('apiProducts',apiProducts)
+
   const apiCategory = apiCategories?.find((c) => c.slug === slug);
-  // console.log('apiProducts', apiCategory);
   // const mockCategory = getCategoryBySlug(slug);
   const category = apiCategory;
   // || mockCategory;
@@ -71,7 +72,6 @@ export default async function CategoryPage({ params }: Props) {
     apiProducts !== null && apiProducts !== undefined
       ? apiProducts.filter((p) => {
         const catSlug = (p.category as { slug?: string })?.slug;
-        console.log('catSlug', catSlug, 'slug', slug,);
         return catSlug === slug || p.categoryId === (apiCategory?.id ?? "");
       })
       : getProductsByCategory(slug);

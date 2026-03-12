@@ -37,7 +37,9 @@ export function FeaturedProducts() {
       .then((res) => (res.ok ? res.json() : null))
       .then((data: ApiProduct[] | null) => {
         if (data && Array.isArray(data) && data.length > 0) {
-          const featured = data.filter((p) => p.featured);
+          const active = data.filter((p) => (p as { isActive?: boolean }).isActive !== false);
+          const source = active.length > 0 ? active : data;
+          const featured = source.filter((p) => p.featured);
           setProducts(featured.length > 0 ? featured : data.slice(0, 6));
         }
       })
