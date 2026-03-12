@@ -31,8 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const imageUrl = getAbsoluteUrl(
     (category as { image?: string; imageUrl?: string }).image ||
-      (category as { imageUrl?: string }).imageUrl ||
-      ""
+    (category as { imageUrl?: string }).imageUrl ||
+    ""
   );
 
   return {
@@ -61,18 +61,22 @@ export default async function CategoryPage({ params }: Props) {
   ]);
 
   const apiCategory = apiCategories?.find((c) => c.slug === slug);
-  const mockCategory = getCategoryBySlug(slug);
-  const category = apiCategory || mockCategory;
+  // console.log('apiProducts', apiCategory);
+  // const mockCategory = getCategoryBySlug(slug);
+  const category = apiCategory;
+  // || mockCategory;
   if (!category) notFound();
 
   const categoryProducts =
     apiProducts !== null && apiProducts !== undefined
       ? apiProducts.filter((p) => {
-          const catSlug = (p.category as { slug?: string })?.slug;
-          return catSlug === slug || p.categoryId === (apiCategory?.id ?? "");
-        })
+        const catSlug = (p.category as { slug?: string })?.slug;
+        console.log('catSlug', catSlug, 'slug', slug,);
+        return catSlug === slug || p.categoryId === (apiCategory?.id ?? "");
+      })
       : getProductsByCategory(slug);
 
+  // console.log('categoryProducts', categoryProducts);
   const products = (categoryProducts ?? []).map((p) =>
     "category" in p && typeof (p as { category: unknown }).category === "object"
       ? { ...p, category: (p as { category: { slug?: string } }).category?.slug ?? slug }
