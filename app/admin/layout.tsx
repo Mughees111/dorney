@@ -99,7 +99,7 @@ export default function AdminLayout({
                 >
                   Hero Slides
                 </Link>
-                <Link
+                {/* <Link
                   href="/admin/flash-deals"
                   className={`text-sm font-medium ${
                     pathname?.startsWith("/admin/flash-deals")
@@ -108,7 +108,7 @@ export default function AdminLayout({
                   }`}
                 >
                   Flash Deals
-                </Link>
+                </Link> */}
                 <Link
                   href="/admin/faqs"
                   className={`text-sm font-medium ${
@@ -224,7 +224,7 @@ export default function AdminLayout({
               >
                 Hero Slides
               </Link>
-              <Link
+              {/* <Link
                 href="/admin/flash-deals"
                 className={`block px-3 py-2 text-base font-medium rounded-md ${
                   pathname?.startsWith("/admin/flash-deals")
@@ -234,7 +234,7 @@ export default function AdminLayout({
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Flash Deals
-              </Link>
+              </Link> */}
               <Link
                 href="/admin/faqs"
                 className={`block px-3 py-2 text-base font-medium rounded-md ${
