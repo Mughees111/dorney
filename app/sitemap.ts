@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { products, categories } from "@/lib/data";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dornyfood.com";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://dornayfood.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [

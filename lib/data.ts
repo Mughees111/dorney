@@ -40,7 +40,7 @@ export interface Product {
   featured?: boolean;
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dornyfood.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dornayfood.com";
 
 export const categories: Category[] = [
   {

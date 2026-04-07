@@ -5,7 +5,7 @@ import Container from '../components/Container';
 import Button from '../components/Button';
 import { navLinks } from '../data/navLinks';
 import { categories } from '../data/categories';
-import logo from '../assets/images/dornyLogo.png'
+import logo from '../assets/images/dornayLogo.png'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

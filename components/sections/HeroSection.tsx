@@ -110,32 +110,13 @@ export function HeroSection() {
         {/* className="relative z-10 py-16 lg:py-24" */}
         {/* <h1>MUghees</h1> */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 lg:gap-16 ">
-           {floatingItems.map((item, i) => (
-              <span
-                key={i}
-                aria-hidden="true"
-                style={{
-                  position: "absolute",
-                  top: item.top,
-                  left: item.left,
-                  right: item.right as string | undefined,
-                  fontSize: "2.5rem",
-                  opacity: 0.3,
-                  animation: `float ${item.duration} ease-in-out ${item.delay} infinite alternate`,
-                  userSelect: "none",
-                  filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.2))",
-                }}
-              >
-                {item.emoji}
-              </span>
-            ))}
           <div className="text-center lg:text-left space-y-8 animate-fade-in order-2 lg:order-1">
-            <div className="inline-block mt-20">
-              <span className="px-5 py-2.5 bg-gradient-primary text-white text-sm font-semibold rounded-full uppercase tracking-wider shadow-sm">
-                Premium Bakery Products
+            <div className="inline-block mt-10 md:mt-20 px-4 md:px-0">
+              <span className="px-3 md:px-5 py-2 md:py-2.5 bg-gradient-primary text-white text-xs md:text-sm font-semibold rounded-full uppercase tracking-wider shadow-sm text-center block md:inline-block whitespace-normal md:whitespace-nowrap">
+                Pakistans no 1 internaltional conventionally brand
               </span>
             </div>
-           
+
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-cookie text-primary leading-tight">
               {slide?.title ?? defaultSlides[0].title}
             </h1>

@@ -35,8 +35,9 @@ export default function HomePage() {
     <>
       <HeroSection />
       {/* <FlashSaleSection /> */}
-      <ProductCategories />
       <FeaturedProducts />
+      <ProductCategories />
+      
       <CoreValues />
       <ManufacturingProcess />
       <TrustSection />
