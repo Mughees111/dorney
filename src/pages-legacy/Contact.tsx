@@ -172,7 +172,7 @@ export default function Contact() {
                     type="tel"
                     id="phone"
                     className="w-full px-4 py-3 border border-neutral/50 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition"
-                    placeholder="+92 300 1234567"
+                    placeholder="+92 325 9728699"
                     required
                   />
                 </div>
@@ -206,12 +206,12 @@ export default function Contact() {
                 </p>
                 <p className="flex items-center gap-3">
                   <span className="text-xl">📞</span>
-                  <a href="tel:+92311786708" className="hover:underline">+92 311 786708</a>
+                  <a href="tel:+923259728699" className="hover:underline">+92 325 9728699</a>
                 </p>
-                <p className="flex items-center gap-3">
+                {/* <p className="flex items-center gap-3">
                   <span className="text-xl">📞</span>
                   <a href="tel:+04237163047" className="hover:underline">04237163047</a>
-                </p>
+                </p> */}
                 <p className="flex items-center gap-3">
                   <span className="text-xl">⏰</span>
                   <span>Opening Hours:<br />Mon–Sat: 9:00 AM – 6:00 PM<br />Sunday: Closed</span>
@@ -222,7 +222,7 @@ export default function Contact() {
             <div className="bg-white p-8 rounded-2xl shadow-lg">
               <h3 className="text-xl font-bold text-dark mb-4">Quick WhatsApp</h3>
               <Button
-                href="https://wa.me/923001234567?text=Hi%20Dorney%20Team"
+                href="https://wa.me/923259728699?text=Hi%20Dorney%20Team"
                 variant="outline"
                 size="lg"
                 className="w-full"

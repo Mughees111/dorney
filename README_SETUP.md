@@ -12,7 +12,7 @@ Required variables:
 - `DATABASE_URL` - Supabase PostgreSQL connection string (see Supabase Credentials below)
 - `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
 - `JWT_SECRET` - Random string, min 32 chars (e.g. `openssl rand -base64 32`)
-- `NEXT_PUBLIC_WHATSAPP_NUMBER` - Business WhatsApp number (e.g. `923164095608`)
+- `NEXT_PUBLIC_WHATSAPP_NUMBER` - Business WhatsApp number (e.g. `923259728699`)
 
 ### Supabase Credentials
 
@@ -101,7 +101,7 @@ In Vercel: **Project → Settings → Environment Variables**, add:
 | `CLOUDINARY_API_KEY` | Yes | From Cloudinary dashboard |
 | `CLOUDINARY_API_SECRET` | Yes | From Cloudinary dashboard |
 | `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Yes | From Cloudinary dashboard |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Yes | e.g. `923164095608` |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Yes | e.g. `923259728699` |
 | `NEXT_PUBLIC_SITE_URL` | Yes | Your site URL, e.g. `https://your-app.vercel.app` |
 
 ### Critical: `DATABASE_URL` for Vercel

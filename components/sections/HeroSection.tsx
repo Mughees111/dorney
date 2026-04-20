@@ -113,7 +113,7 @@ export function HeroSection() {
           <div className="text-center lg:text-left space-y-8 animate-fade-in order-2 lg:order-1">
             <div className="inline-block mt-10 md:mt-20 px-4 md:px-0">
               <span className="px-3 md:px-5 py-2 md:py-2.5 bg-gradient-primary text-white text-xs md:text-sm font-semibold rounded-full uppercase tracking-wider shadow-sm text-center block md:inline-block whitespace-normal md:whitespace-nowrap">
-                Pakistans no 1 internaltional conventionally brand
+                Pakistans no 1 international conventionally brand
               </span>
             </div>
 

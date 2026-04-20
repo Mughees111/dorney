@@ -5,7 +5,7 @@
 export const constants = {
   phone: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
     ? `+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER.replace(/\D/g, "")}`
-    : "+923164095608",
+    : "+923259728699",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://dornayfood.com",
 };
 

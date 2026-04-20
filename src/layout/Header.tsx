@@ -27,7 +27,7 @@ export default function Header() {
     setIsProductsOpen(false);
   }, [location]);
 
-  const whatsappNumber = '923001234567';
+  const whatsappNumber = '923259728699';
   const message = 'Hi, I want to place an order';
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 

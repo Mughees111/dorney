@@ -190,12 +190,12 @@ export function ContactPageClient() {
                 </p>
                 <p className="flex items-center gap-3">
                   <span className="text-xl">📞</span>
-                  <a href="tel:+92311786708" className="hover:underline">+92 311 786708</a>
+                  <a href="tel:+923259728699" className="hover:underline">+92 325 9728699</a>
                 </p>
-                <p className="flex items-center gap-3">
+                {/* <p className="flex items-center gap-3">
                   <span className="text-xl">📞</span>
                   <a href="tel:+04237163047" className="hover:underline">04237163047</a>
-                </p>
+                </p> */}
                 <p className="flex items-center gap-3">
                   <span className="text-xl">⏰</span>
                   <span>Opening Hours:<br />Mon–Sat: 9:00 AM – 6:00 PM<br />Sunday: Closed</span>

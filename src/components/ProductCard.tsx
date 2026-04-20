@@ -8,7 +8,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ name, category, image, description }: ProductCardProps) {
-  const whatsappNumber = '923001234567';
+  const whatsappNumber = '923259728699';
   const message = `Hi, I'm interested in ordering ${name}`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 

@@ -3,7 +3,7 @@ import Container from '../Container';
 import Button from '../Button';
 
 export default function CTASection() {
-  const whatsappNumber = '923001234567';
+  const whatsappNumber = '923259728699';
   const message = 'Hi, I want to stock your products in my store / discuss wholesale partnership';
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
