@@ -98,7 +98,11 @@ export function ProductCard({ product }: ProductCardProps) {
           </h3>
         </Link>
         <p className="text-neutral mb-2 line-clamp-2">{product.shortDescription}</p>
-        <p className="text-primary font-bold mb-4">Rs. {product.price}</p>
+        {Number(product.price) > 0 ? (
+          <p className="text-primary font-bold mb-4">Rs. {product.price}</p>
+        ) : (
+          <div className="mb-4" />
+        )}
         <div className="flex flex-col sm:flex-row gap-2">
           {quantity > 0 ? (
             <div className="flex items-center justify-center gap-2 w-full sm:flex-1">

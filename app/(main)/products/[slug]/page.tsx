@@ -177,7 +177,9 @@ export default async function ProductPage({ params }: Props) {
               <p className="text-lg text-secondary font-semibold mb-2 capitalize">
                 {capitalizedCategory}
               </p>
-              <p className="text-2xl font-bold text-dark mb-6">Rs. {product.price}</p>
+              {Number(product.price) > 0 && (
+                <p className="text-2xl font-bold text-dark mb-6">Rs. {product.price}</p>
+              )}
               <p className="text-lg text-neutral leading-relaxed mb-8">
                 {product.description}
               </p>

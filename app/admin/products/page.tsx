@@ -122,7 +122,9 @@ export default function AdminProductsPage() {
                 <tr key={p.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{p.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{p.slug}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Rs. {p.price}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {Number(p.price) > 0 ? `Rs. ${p.price}` : "-"}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <button
                       type="button"
