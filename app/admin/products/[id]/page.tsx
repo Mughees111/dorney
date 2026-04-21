@@ -88,10 +88,13 @@ export default function EditProductPage() {
     setError("");
     setSaving(true);
     try {
-      const price = parseFloat(form.price);
-      if (isNaN(price) || price <= 0) {
-        setError("Price must be a positive number (PKR)");
-        return;
+      let price: number | undefined = undefined;
+      if (form.price) {
+        price = parseFloat(form.price);
+        if (isNaN(price) || price < 0) {
+          setError("Price must be a positive number (PKR)");
+          return;
+        }
       }
       const keywords = parseKeywordsInput(form.keywordsInput);
       const res = await fetch(`/api/products/${id}`, {
@@ -173,8 +176,8 @@ export default function EditProductPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Price (PKR) *</label>
-            <input type="number" step="0.01" min="0" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} required className={inputClass} />
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Price (PKR)</label>
+            <input type="number" step="0.01" min="0" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} className={inputClass} placeholder="e.g. 50 (Optional)" />
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Short Description</label>
