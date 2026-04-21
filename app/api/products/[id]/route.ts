@@ -39,7 +39,7 @@ export async function GET(
     if (!product) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({
       ...product,
-      price: Number(product.price),
+      price: product.price ? Number(product.price) : null,
       keywords: (product.keywords as string[]) || [],
     });
   } catch (e) {

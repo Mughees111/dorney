@@ -36,7 +36,7 @@ model Product {
   categoryId      String         @map("category_id")
   shortDescription String?       @map("short_description")
   description     String?
-  price           Decimal        @db.Decimal(10, 2)
+  price           Decimal?       @db.Decimal(10, 2)
   featured        Boolean        @default(false)
   isActive        Boolean        @default(true) @map("is_active")
   image           String?        // Product image URL

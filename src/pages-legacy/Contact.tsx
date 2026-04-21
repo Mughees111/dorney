@@ -21,9 +21,9 @@ const locations = [
 ];
 
 const teamContacts = [
-  { name: 'Hamza Sheikh', role: 'CEO', phone: '+92 300 1234567' },
-  { name: 'Muneeb Butt', role: 'Sales & Distribution Manager', phone: '+92 321 9876543' },
-  { name: 'Bilal Ahmed', role: 'Production Head', phone: '+92 333 4567890' },
+  { name: 'Mr. Hamza Sheikh', role: 'CEO', phone: '+92 300 1234567' },
+  { name: 'Mr. Muneeb Butt', role: 'Sales & Distribution Manager', phone: '+92 321 9876543' },
+  { name: 'Mr. Bilal Ahmed', role: 'Production Head', phone: '+92 333 4567890' },
 ];
 
 export default function Contact() {
@@ -49,10 +49,10 @@ export default function Contact() {
       </section>
 
       <Container className="py-16 md:py-20 space-y-20 md:space-y-24">
-        {/* Our Locations – Tabs */}
+        {/* Our Location – Tabs */}
         <div>
           <h2 className="text-3xl sm:text-4xl font-poppins font-bold text-dark text-center mb-10">
-            Our Locations
+            Our Location
           </h2>
 
           {/* Tabs */}
@@ -104,7 +104,7 @@ export default function Contact() {
           <h2 className="text-3xl font-poppins font-bold text-dark text-center mb-10">
             Key Contacts
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {teamContacts.map((contact, index) => (
               <div
                 key={index}

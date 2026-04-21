@@ -4,7 +4,7 @@ import { ContactPageClient } from "./ContactPageClient";
 export const metadata: Metadata = {
   title: "Contact Dornay - Get in Touch | FMCG Manufacturer Pakistan",
   description:
-    "Contact Dornay for wholesale orders, distributor inquiries, and retail partnerships. Locations, phone numbers, and contact form.",
+    "Contact Dornay for wholesale orders, distributor inquiries, and retail partnerships. Location, phone numbers, and contact form.",
   keywords: ["contact Dornay", "Dornay Pakistan", "wholesale inquiry", "distributor"],
   openGraph: {
     title: "Contact Dornay | FMCG Manufacturer Pakistan",

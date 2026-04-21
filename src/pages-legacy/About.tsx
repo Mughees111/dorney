@@ -60,37 +60,32 @@ export default function About() {
             </div>
           </div>
         </Container>
-      </section>
-
-      {/* CEO Message - New section */}
-      <section className="py-20 bg-white">
+      </section>      <section className="py-20 bg-bgLight">
         <Container>
-          <div className="max-w-5xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="relative">
-                <img
-                  src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800" // ← Replace with real CEO photo
-                  alt="Hamza Sheikh, CEO Dornay"
-                  className="rounded-3xl shadow-2xl w-full object-cover aspect-square"
-                />
-                <div className="absolute -top-6 -left-6 w-32 h-32 bg-gradient-primary rounded-full blur-xl opacity-30 -z-10"></div>
-              </div>
+          <div className="max-w-4xl mx-auto text-center space-y-10">
+            <div className="flex flex-col items-center gap-4">
+              <Quote className="w-16 h-16 text-primary opacity-20" />
+              <h2 className="text-5xl font-cookie text-dark">CEO's Message</h2>
+            </div>
+            
+            <div className="text-xl text-neutral leading-relaxed font-poppins space-y-6 bg-white p-10 md:p-16 rounded-[2.5rem] shadow-xl shadow-primary/5 border border-primary/10 relative">
+              <p className="text-dark/80 italic font-medium">Dear Valued Customers,</p>
+              <p>
+                At M.K.S Foods International, we believe in making quality products that bring happiness to your life. We know that when you buy our cakes and donuts, you trust us. That trust means everything to us. This is why we focus on three things: quality ingredients, clean production, and great taste.
+              </p>
+              <p>
+                Every product we make goes through strict quality checks. We make sure everything is fresh and safe for you and your family.
+              </p>
+              <p>
+                Your satisfaction is our success. Your feedback helps us improve, and your trust gives us strength to do better every day.
+              </p>
+              <p>
+                Thank you for choosing M.K.S Foods and letting us be part of your special moments.
+              </p>
 
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <Quote className="w-12 h-12 text-primary opacity-50" />
-                  <h2 className="text-4xl font-cookie text-dark">CEO's Message</h2>
-                </div>
-                <p className="text-lg text-neutral leading-relaxed font-poppins" >
-                  Dear Valued Customers,{"\n"}{"\n"}At M.K.S Foods International, we believe in making quality products that bring happiness to your life.<br /> We know that when you buy our cakes and donuts, you trust us. That trust means everything to us. This is why we focus on three things: quality ingredients, clean production, and great taste.<br />Every product we make goes through strict quality checks. We make sure everything is fresh and safe for you and your family.<br /> Your satisfaction is our success. Your feedback helps us improve, and your trust gives us strength to do better every day.<br /> Thank you for choosing M.K.S Foods and letting us be part of your special moments
-                </p>
-                {/* <p className="text-lg text-neutral leading-relaxed">
-                  Our commitment remains simple: use the best ingredients, maintain the highest hygiene standards, and deliver freshness you can taste. Thank you for choosing Dornay – we're honored to be part of your sweet moments."
-                </p> */}
-                <div>
-                  <p className="font-bold text-dark text-xl">Hamza Sheikh</p>
-                  <p className="text-neutral">Founder & CEO, Dornay</p>
-                </div>
+              <div className="pt-8 border-t border-neutral-100 flex flex-col items-center not-italic">
+                <p className="font-bold text-dark text-2xl">Mr. Khalid Sheikh</p>
+                <p className="text-primary font-medium">Founder & CEO, Dornay</p>
               </div>
             </div>
           </div>
@@ -104,12 +99,12 @@ export default function About() {
             Our Leadership Team
           </SectionTitle>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-12">
             {[
-              { name: "Hamza Sheikh", role: "Founder & CEO", img: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?w=800" },
-              { name: "Muneeb Butt", role: "Head of Quality & R&D", img: "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?w=800" },
-              { name: "Bilal Ahmed", role: "Operations Director", img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800" },
-              { name: "Sara Malik", role: "Sales & Distribution Lead", img: "https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?w=800" },
+              { name: "Mr. Hamza Sheikh", role: "Founder & CEO", img: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?w=800" },
+              { name: "Mr. Muneeb Butt", role: "Head of Quality & R&D", img: "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?w=800" },
+              { name: "Mr. Bilal Ahmed", role: "Operations Director", img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800" },
+              { name: "Mr. Sara Malik", role: "Sales & Distribution Lead", img: "https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?w=800" },
             ].map((member, idx) => (
               <div
                 key={idx}

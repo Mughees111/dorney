@@ -31,28 +31,28 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const teamMembers = [
     {
-      name: "Mr Khalid Sheikh",
+      name: "Mr. Khalid Sheikh",
       role: "CEO",
       img: "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?w=800",
     },
     {
-      name: "Hamza Sheikh",
+      name: "Mr. Hamza Sheikh",
       role: "Administration Director",
       img: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?w=800",
     },
 
     {
-      name: "Mr Nazim Sheikh",
+      name: "Mr. Nazim Sheikh",
       role: "",
       img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800",
     },
     {
-      name: "Mr Usman Sheikh",
+      name: "Mr. Usman Sheikh",
       role: "",
       img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800",
     },
     {
-      name: "Ch Rashid Hameed Shab",
+      name: "Mr. Ch Rashid Hameed",
       role: "",
       img: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?w=800",
     },
@@ -113,54 +113,44 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-bgLight">
         <Container>
-          <div className="max-w-5xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="relative">
-                <Image
-                  src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Hamza Sheikh, CEO Dornay"
-                  width={800}
-                  height={800}
-                  className="rounded-3xl shadow-2xl w-full object-cover aspect-square"
-                />
-                <div className="absolute -top-6 -left-6 w-32 h-32 bg-gradient-primary rounded-full blur-xl opacity-30 -z-10" />
-              </div>
+          <div className="max-w-4xl mx-auto text-center space-y-10">
+            <div className="flex flex-col items-center gap-4">
+              <Quote className="w-16 h-16 text-primary opacity-20" />
+              <h2 className="text-5xl font-cookie text-dark">CEO&apos;s Message</h2>
+            </div>
+            
+            <div className="text-xl text-neutral leading-relaxed font-poppins space-y-6 bg-white p-10 md:p-16 rounded-[2.5rem] shadow-xl shadow-primary/5 border border-primary/10 relative">
+              {/* Decorative background element */}
+              <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-primary rounded-full blur-3xl opacity-10 animate-pulse" />
+              
+              <p className="text-dark/80 italic font-medium">Dear Valued Customers,</p>
+              <p>
+                At M.K.S Foods International, we believe in making quality
+                products that bring happiness to your life. We know that when
+                you buy our cakes and donuts, you trust us. That trust means
+                everything to us. This is why we focus on three things:
+                quality ingredients, clean production, and great taste.
+              </p>
+              <p>
+                Every product we make goes through strict quality checks. We
+                make sure everything is fresh and safe for you and your
+                family.
+              </p>
+              <p>
+                Your satisfaction is our success. Your feedback helps us
+                improve, and your trust gives us strength to do better every
+                day.
+              </p>
+              <p>
+                Thank you for choosing M.K.S Foods and letting us be part of
+                your special moments.
+              </p>
 
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <Quote className="w-12 h-12 text-primary opacity-50" />
-                  <h2 className="text-4xl font-cookie text-dark">CEO&apos;s Message</h2>
-                </div>
-                <div className="text-lg text-neutral leading-relaxed font-poppins space-y-4">
-                  <p>Dear Valued Customers,</p>
-                  <p>
-                    At M.K.S Foods International, we believe in making quality
-                    products that bring happiness to your life. We know that when
-                    you buy our cakes and donuts, you trust us. That trust means
-                    everything to us. This is why we focus on three things:
-                    quality ingredients, clean production, and great taste.
-                  </p>
-                  <p>
-                    Every product we make goes through strict quality checks. We
-                    make sure everything is fresh and safe for you and your
-                    family.
-                  </p>
-                  <p>
-                    Your satisfaction is our success. Your feedback helps us
-                    improve, and your trust gives us strength to do better every
-                    day.
-                  </p>
-                  <p>
-                    Thank you for choosing M.K.S Foods and letting us be part of
-                    your special moments.
-                  </p>
-                </div>
-                <div>
-                  <p className="font-bold text-dark text-xl">Hamza Sheikh</p>
-                  <p className="text-neutral">Founder & CEO, Dornay</p>
-                </div>
+              <div className="pt-8 border-t border-neutral-100 flex flex-col items-center not-italic">
+                <p className="font-bold text-dark text-2xl">Mr. Khalid Sheikh</p>
+                <p className="text-primary font-medium">Founder & CEO, Dornay</p>
               </div>
             </div>
           </div>
@@ -173,7 +163,7 @@ export default function AboutPage() {
             Our Leadership Team
           </SectionTitle>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-12">
             {teamMembers.map((member) => (
               <article
                 key={member.name}

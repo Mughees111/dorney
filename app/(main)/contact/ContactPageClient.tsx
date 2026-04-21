@@ -15,10 +15,10 @@ const locations = [
 ];
 
 const teamContacts = [
-  { name: "Mr Khalid sheikh", role: "CEO", phone: "" },
-  { name: "Mr Usman sheikh", role: "", phone: "" },
-  { name: "Ch Rashid hameed shab", role: "", phone: "" },
-  { name: "Mr Hamza sheikh", role: "Administration Director", phone: "" },
+  { name: "Mr. Khalid Sheikh", role: "CEO", phone: "" },
+  { name: "Mr. Usman Sheikh", role: "", phone: "" },
+  { name: "Mr. Ch Rashid Hameed", role: "", phone: "" },
+  { name: "Mr. Hamza Sheikh", role: "Administration Director", phone: "" },
 ];
 
 export function ContactPageClient() {
@@ -46,7 +46,7 @@ export function ContactPageClient() {
       <Container className="py-16 md:py-20 space-y-20 md:space-y-24">
         <div>
           <h2 className="text-3xl sm:text-4xl font-poppins font-bold text-dark text-center mb-10">
-            Our Locations
+            Our Location
           </h2>
           <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-10 border-b border-neutral/30 pb-4">
             {locations.map((loc, index) => (
@@ -92,7 +92,7 @@ export function ContactPageClient() {
           <h2 className="text-3xl font-poppins font-bold text-dark text-center mb-10">
             Key Contacts
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {teamContacts.map((contact) => (
               <div
                 key={contact.name}
