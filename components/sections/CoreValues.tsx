@@ -3,14 +3,15 @@
 import { ShieldCheck, Truck, Award, Leaf, HeartHandshake, Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const values = [
   {
     icon: ShieldCheck,
     title: "100% Hygienic",
     desc: "ISO-certified production facility. Every product is made in a safe, clean environment.",
-    color: "#FF6B00",
-    bg: "#FFF3E0",
+    color: "#AF3336",
+    bg: "#FFEBEE",
   },
   {
     icon: Leaf,
@@ -67,7 +68,7 @@ export function CoreValues() {
         <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg" style={{ position: 'absolute', top: 0, left: 0 }}>
           <defs>
             <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="12" cy="12" r="1.5" fill="#FF6B00" />
+              <circle cx="12" cy="12" r="1.5" fill="#AF3336" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#dots)" />
@@ -83,7 +84,7 @@ export function CoreValues() {
             viewport={{ once: true }}
             style={{
               display: "inline-block",
-              background: "linear-gradient(135deg, #FF6B00, #FF8C00)",
+              background: "linear-gradient(135deg, #AF3336, #D32F2F)",
               color: "white",
               fontWeight: 700,
               fontSize: "0.78rem",
@@ -113,7 +114,7 @@ export function CoreValues() {
             Built on Values,{" "}
             <span
               style={{
-                background: "linear-gradient(135deg, #FF6B00, #FFB347)",
+                background: "linear-gradient(135deg, #AF3336, #E53935)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -206,131 +207,74 @@ export function CoreValues() {
           })}
         </div>
 
-        {/* Trust Strip */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
+          className="relative overflow-hidden border border-white/20 rounded-[32px] p-6 sm:p-8 md:p-10 lg:px-12 lg:py-10 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-6"
           style={{
-            background: "linear-gradient(135deg, #FF6B00 0%, #FF8C00 50%, #FFB347 100%)",
-            borderRadius: "32px",
-            padding: "32px 40px",
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "24px",
-            boxShadow: "0 25px 60px rgba(255,107,0,0.2)",
-            position: "relative",
-            overflow: "hidden",
-            border: "1px solid rgba(255,255,255,0.2)",
+            background: "linear-gradient(135deg, #AF3336 0%, #CE1F25 50%, #E53935 100%)",
+            boxShadow: "0 25px 60px rgba(175, 51, 54, 0.25)",
           }}
         >
           {/* Background decoration */}
           <div
             aria-hidden="true"
-            style={{
-              position: "absolute",
-              right: "-40px",
-              top: "-40px",
-              width: "180px",
-              height: "180px",
-              borderRadius: "50%",
-              background: "rgba(255,255,255,0.12)",
-            }}
+            className="absolute -right-10 -top-10 w-[180px] h-[180px] rounded-full bg-white/10"
           />
 
-          <div style={{ position: "relative", zIndex: 1, maxWidth: "450px" }}>
+          <div className="relative z-10 max-w-lg text-center lg:text-left">
             <h3
-              style={{
-                fontFamily: "'Georgia', serif",
-                fontSize: "1.9rem",
-                fontWeight: 800,
-                color: "white",
-                marginBottom: "8px",
-                lineHeight: 1.2,
-              }}
+              className="font-serif text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-tight"
             >
               Certified Excellence
             </h3>
-            <p style={{ color: "rgba(255,255,255,0.9)", fontSize: "0.95rem", lineHeight: 1.5 }}>
+            <p className="text-white/90 text-sm md:text-base leading-relaxed">
               Hamare products internationally recognized standards pe khare utarte hain. We never compromise on your health and safety.
             </p>
           </div>
 
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: "24px 48px",
-              position: "relative",
-              zIndex: 1,
-            }}
+            className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-10 md:gap-x-16 md:gap-y-12 relative z-10 w-full lg:w-auto"
           >
             {trustBadges.map((badge, idx) => (
               <motion.div
                 key={badge.alt}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30, rotate: -5 }}
+                whileInView={{ opacity: 1, y: 0, rotate: idx % 2 === 0 ? -2 : 2 }}
                 viewport={{ once: true }}
                 transition={{ 
-                  delay: 0.3 + (idx * 0.1),
+                  delay: 0.2 + (idx * 0.1),
+                  duration: 0.6,
+                  ease: "easeOut",
                   y: {
-                    duration: 4,
+                    duration: 4 + idx,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: idx * 0.5
                   }
                 }}
                 whileHover={{ 
                   scale: 1.1, 
+                  rotate: 0,
                   transition: { duration: 0.2 }
                 }}
                 animate={{
-                  y: [0, -6, 0],
+                  y: [0, idx % 2 === 0 ? -8 : -12, 0],
                 }}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: "16px",
-                  cursor: "pointer",
-                }}
+                className={`flex flex-row items-center gap-4 cursor-pointer group px-2 ${
+                  idx % 2 === 1 ? 'translate-y-4 md:translate-y-10' : ''
+                }`}
               >
-                <div style={{
-                  width: "95px",
-                  height: "75px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "white",
-                  padding: "10px",
-                  borderRadius: "16px",
-                  boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
-                }}>
-                  <img
+                <div className="relative w-[85px] h-[65px] md:w-[95px] md:h-[75px] flex items-center justify-center bg-white p-2.5 rounded-xl shadow-lg group-hover:shadow-xl transition-shadow overflow-hidden">
+                  <Image
                     src={badge.src}
                     alt={badge.alt}
-                    style={{
-                      maxHeight: "100%",
-                      maxWidth: "100%",
-                      width: "auto",
-                      height: "auto",
-                      objectFit: "contain",
-                    }}
+                    fill
+                    className="p-2 object-contain"
                   />
                 </div>
                 <div
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "white",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    opacity: 1,
-                    maxWidth: "90px",
-                    lineHeight: 1.3,
-                  }}
+                  className="text-[10px] md:text-[11px] text-white font-extrabold uppercase tracking-wider max-w-[80px] md:max-w-[90px] leading-tight"
                 >
                   {badge.label}
                 </div>

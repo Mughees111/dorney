@@ -76,7 +76,14 @@ export function Header() {
       <Container>
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center space-x-2">
-            <img src={"/images/dornyLogo.png"} alt="Dornay Logo" style={{width: "176px",}} />
+            <Image 
+              src="/images/dornyLogo.png" 
+              alt="Dornay Logo" 
+              width={176} 
+              height={60} 
+              className="object-contain h-auto"
+              priority
+            />
             {/* <Image
               src="/images/dornyLogo.png"
               alt="Dornay Logo"

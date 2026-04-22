@@ -12,8 +12,14 @@ export function Footer() {
       <Container>
         <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <img src={"/images/dornayLogo.png"} alt="Dornay Logo" style={{ width: "106px", }} />
+            <div className="relative mb-4">
+              <Image 
+                src="/images/dornyLogo.png" 
+                alt="Dornay Logo" 
+                width={126} 
+                height={50} 
+                className="object-contain"
+              />
             </div>
             <p className="text-gray-400 mb-4">
               Leading manufacturer of premium bakery and confectionery products

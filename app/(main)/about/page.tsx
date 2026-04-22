@@ -101,11 +101,11 @@ export default function AboutPage() {
 
             <div className="relative">
               <Image
-                src="https://images.pexels.com/photos/1449773/pexels-photo-1449773.jpeg?auto=compress&cs=tinysrgb&w=1200"
-                alt="Dornay production facility"
+                src="/images/IMG_5008.PNG"
+                alt="Dornay Legacy Production Facility"
                 width={1200}
                 height={800}
-                className="rounded-3xl shadow-2xl w-full object-cover"
+                className="rounded-3xl shadow-2xl w-full object-cover aspect-video"
               />
               <div className="absolute -bottom-8 -right-8 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
             </div>
@@ -157,7 +157,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <Container>
           <SectionTitle subtitle="Meet the People Behind Dornay">
             Our Leadership Team
@@ -185,7 +185,7 @@ export default function AboutPage() {
             ))}
           </div>
         </Container>
-      </section>
+      </section> */}
 
       <section className="py-20 bg-gradient-to-br from-bgLight to-white">
         <Container>
@@ -231,11 +231,11 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1 relative">
               <Image
-                src="https://images.pexels.com/photos/4393665/pexels-photo-4393665.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                src="/images/fmcg.jpg"
                 alt="Dornay distribution fleet"
                 width={1200}
                 height={800}
-                className="rounded-3xl shadow-2xl w-full object-cover"
+                className="rounded-3xl shadow-2xl w-full object-cover aspect-video"
               />
               <div className="absolute -top-8 -left-8 w-64 h-64 bg-gradient-primary rounded-full blur-3xl opacity-20 -z-10" />
             </div>
