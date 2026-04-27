@@ -25,7 +25,7 @@ const config: Config = {
       },
       backgroundImage: {
         "gradient-primary":
-          "linear-gradient(135deg, #AF3336 0%, #FF8F00 100%)",
+          "linear-gradient(135deg, #AF3336 0%, #991B1B 100%)",
         "gradient-secondary":
           "linear-gradient(135deg, #FF8F00 0%, #FFC107 100%)",
         "gradient-trust":

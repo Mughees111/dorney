@@ -230,7 +230,7 @@ export function CoreValues() {
               Certified Excellence
             </h3>
             <p className="text-white/90 text-sm md:text-base leading-relaxed">
-              Hamare products internationally recognized standards pe khare utarte hain. We never compromise on your health and safety.
+              Our products meet internationally recognized standards. We never compromise on your health and safety.
             </p>
           </div>
 

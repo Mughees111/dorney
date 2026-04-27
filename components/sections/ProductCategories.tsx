@@ -59,9 +59,10 @@ export function ProductCategories() {
             onClick={() => setActiveFilter("all")}
             className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
               activeFilter === "all"
-                ? "bg-gradient-primary text-white shadow-lg"
+                ? "text-white shadow-lg"
                 : "bg-gray-100 text-dark hover:bg-gray-200"
             }`}
+            style={activeFilter === "all" ? { background: "linear-gradient(135deg, #AF3336 0%, #991B1B 100%)" } : {}}
           >
             All Products
           </button>
@@ -71,9 +72,10 @@ export function ProductCategories() {
               onClick={() => setActiveFilter(category.slug)}
               className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                 activeFilter === category.slug
-                  ? "bg-gradient-primary text-white shadow-lg"
+                  ? "text-white shadow-lg"
                   : "bg-gray-100 text-dark hover:bg-gray-200"
               }`}
+              style={activeFilter === category.slug ? { background: "linear-gradient(135deg, #AF3336 0%, #991B1B 100%)" } : {}}
             >
               {category.name}
             </button>

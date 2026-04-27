@@ -17,10 +17,10 @@ export const useIsMobile = (breakpoint = 768) => {
     const check = () => {
       setIsMobile(window.innerWidth < breakpoint);
     };
-    
+
     check(); // initial check
     window.addEventListener("resize", check);
-    
+
     return () => window.removeEventListener("resize", check);
   }, [breakpoint]);
 
@@ -133,7 +133,7 @@ export function FeaturedProducts() {
       .then((data: ApiProduct[] | null) => {
         if (data && Array.isArray(data) && data.length > 0) {
           const featuredAndActive = data.filter(
-            (p) => 
+            (p) =>
               (p as { featured?: boolean; isActive?: boolean }).featured === true &&
               (p as { isActive?: boolean }).isActive !== false
           );
@@ -141,7 +141,7 @@ export function FeaturedProducts() {
           setProducts(source);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
@@ -247,11 +247,11 @@ export function FeaturedProducts() {
       style={{ paddingTop: "5rem", paddingBottom: "4rem" }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      
+
     >
       {/* ── Marquee: stays ABOVE images, just larger font so it extends down ── */}
       <div
-        
+
         className="pointer-events-none absolute inset-x-0 top-0 z-[1] select-none overflow-hidden  "
         aria-hidden
       >
