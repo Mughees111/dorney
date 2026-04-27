@@ -14,12 +14,6 @@ const locations = [
   },
 ];
 
-const teamContacts = [
-  { name: "Mr. Khalid Sheikh", role: "CEO", phone: "" },
-  { name: "Mr. Usman Sheikh", role: "", phone: "" },
-  { name: "Mr. Ch Rashid Hameed", role: "", phone: "" },
-  { name: "Mr. Hamza Sheikh", role: "Administration Director", phone: "" },
-];
 
 export function ContactPageClient() {
   const [activeTab, setActiveTab] = useState(0);
@@ -88,28 +82,6 @@ export function ContactPageClient() {
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-          <h2 className="text-3xl font-poppins font-bold text-dark text-center mb-10">
-            Key Contacts
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {teamContacts.map((contact) => (
-              <div
-                key={contact.name}
-                className="text-center p-6 border border-neutral/30 rounded-xl hover:shadow-xl transition-shadow"
-              >
-                <h3 className="text-xl font-bold text-dark mb-2">{contact.name}</h3>
-                <p className="text-primary font-medium mb-3">{contact.role}</p>
-                <a
-                  href={`tel:${contact.phone.replace(/\s/g, "")}`}
-                  className="text-neutral hover:text-primary transition-colors flex items-center justify-center gap-2"
-                >
-                  <span className="text-lg">📞</span> {contact.phone}
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
 
         <div className="text-center">
           <h2 className="text-3xl sm:text-4xl font-poppins font-bold text-dark mb-6">
